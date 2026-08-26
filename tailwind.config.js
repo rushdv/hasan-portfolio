@@ -32,8 +32,8 @@ export default {
       },
       fontFamily: {
         sans: ['Plus Jakarta Sans', 'sans-serif'],
-        display: ['Space Grotesk', 'Syne', 'sans-serif'],
-        serif: ['Instrument Serif', 'Georgia', 'serif'],
+        display: ['Outfit', 'Syne', 'sans-serif'],
+        serif: ['Cormorant Garamond', 'Georgia', 'serif'],
         mono: ['Fira Code', 'JetBrains Mono', 'monospace'],
       },
       animation: {
