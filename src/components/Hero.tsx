@@ -45,7 +45,7 @@ export const Hero: React.FC<HeroProps> = ({ setCursorState }) => {
       </div>
 
       {/* Grid Coordinates Accent */}
-      <div className="absolute top-24 right-12 z-0 hidden xl:flex items-center gap-2.5 opacity-30 pointer-events-none font-mono text-[10px] text-accent-gold tracking-widest">
+      <div className="absolute top-24 right-12 z-0 hidden xl:flex items-center gap-2.5 opacity-40 pointer-events-none font-mono text-[10px] text-accent-gold tracking-widest">
         <Compass className="h-3.5 w-3.5 animate-spin-slow text-accent-amber" />
         <span>21.4272° N, 91.9705° E // EXPLORER GRID</span>
       </div>
@@ -70,23 +70,23 @@ export const Hero: React.FC<HeroProps> = ({ setCursorState }) => {
             </div>
           </motion.div>
 
-          {/* 2. Name Reveal - Clean, Balanced Proportions */}
+          {/* 2. Name Reveal - Ultra Cool Unbounded Font */}
           <motion.h1
             variants={itemVariants}
-            className="text-4xl sm:text-6xl lg:text-7xl font-display font-extrabold tracking-tight text-text-primary uppercase leading-[1.02]"
+            className="text-4xl sm:text-5xl lg:text-6xl font-display font-black tracking-tight text-text-primary uppercase leading-[1.05]"
           >
             MEHEDI <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-text-primary via-accent-gold to-accent-amber">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent-gold via-accent-amber to-amber-200">
               HASAN
             </span>
           </motion.h1>
 
-          {/* 3. Main Tagline - Clean & Elegant */}
+          {/* 3. Main Tagline */}
           <motion.div variants={itemVariants} className="space-y-1">
-            <h2 className="text-lg sm:text-xl font-display font-semibold text-accent-gold tracking-wide">
+            <h2 className="text-sm sm:text-base md:text-lg font-mono font-bold text-accent-gold tracking-wider uppercase">
               I BUILD WITH CODE.{' '}
-              <span className="font-serif italic font-normal text-text-primary text-xl sm:text-2xl border-b border-accent-amber/40 pb-0.5 ml-1">
-                I explore beyond it.
+              <span className="text-text-primary border-b border-accent-amber/40 pb-0.5 ml-1">
+                I EXPLORE BEYOND IT.
               </span>
             </h2>
           </motion.div>
@@ -105,7 +105,7 @@ export const Hero: React.FC<HeroProps> = ({ setCursorState }) => {
               href="#projects"
               onMouseEnter={() => setCursorState({ type: 'project' })}
               onMouseLeave={() => setCursorState({ type: 'default' })}
-              className="px-6 py-3 rounded-xl bg-accent-amber text-bg-primary font-display font-bold text-xs tracking-wider hover:bg-accent-gold transition-all duration-300 shadow-md shadow-accent-amber/20 flex items-center gap-2"
+              className="px-6 py-3 rounded-xl bg-accent-amber text-bg-primary font-display font-extrabold text-xs tracking-wider hover:bg-accent-gold transition-all duration-300 shadow-md shadow-accent-amber/20 flex items-center gap-2"
             >
               VIEW MY PROJECTS
             </a>
@@ -114,7 +114,7 @@ export const Hero: React.FC<HeroProps> = ({ setCursorState }) => {
               href="#contact"
               onMouseEnter={() => setCursorState({ type: 'hover', label: 'TALK' })}
               onMouseLeave={() => setCursorState({ type: 'default' })}
-              className="px-6 py-3 rounded-xl bg-bg-surface/90 backdrop-blur-md border border-border-subtle text-text-primary font-display font-medium text-xs tracking-wider hover:border-accent-amber/50 hover:text-accent-gold transition-all duration-300"
+              className="px-6 py-3 rounded-xl bg-bg-surface/90 backdrop-blur-md border border-border-subtle text-text-primary font-display font-bold text-xs tracking-wider hover:border-accent-amber/50 hover:text-accent-gold transition-all duration-300"
             >
               CONTACT ME
             </a>

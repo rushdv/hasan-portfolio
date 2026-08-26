@@ -32,9 +32,9 @@ export default {
       },
       fontFamily: {
         sans: ['Plus Jakarta Sans', 'sans-serif'],
-        display: ['Outfit', 'Syne', 'sans-serif'],
-        serif: ['Cormorant Garamond', 'Georgia', 'serif'],
-        mono: ['Fira Code', 'JetBrains Mono', 'monospace'],
+        display: ['Unbounded', 'Syne', 'sans-serif'],
+        serif: ['Syne', 'Georgia', 'serif'],
+        mono: ['Space Grotesk', 'Fira Code', 'monospace'],
       },
       animation: {
         'pulse-subtle': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
