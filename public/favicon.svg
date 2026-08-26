@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+  <rect width="100" height="100" rx="20" fill="#08080a" />
+  <rect x="2" y="2" width="96" height="96" rx="18" fill="none" stroke="#23232e" stroke-width="2" />
+  <text x="50" y="65" font-family="'Syne', sans-serif" font-size="42" font-weight="800" fill="#d4af37" text-anchor="middle" letter-spacing="-1">MH</text>
+</svg>
