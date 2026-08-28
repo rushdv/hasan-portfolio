@@ -34,26 +34,26 @@ const bgSlides = [
     panTo:   { scale: 1.05, x: '2%',  y: '-2%' },
   },
   {
-    src: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=2000&q=80',
-    location: 'Mountain Horizon',
+    src: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=2000&q=80',
+    location: 'Midnight Horizon',
     panFrom: { scale: 1.1, x: '2%',  y: '1%' },
     panTo:   { scale: 1.05, x: '-2%', y: '-1%' },
   },
   {
-    src: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=2000&q=80',
-    location: 'Coastal Serenity',
+    src: 'https://images.unsplash.com/photo-1478760329108-5c3ed9d495a0?auto=format&fit=crop&w=2000&q=80',
+    location: 'Starlight Peaks',
     panFrom: { scale: 1.12, x: '0%',  y: '-1%' },
     panTo:   { scale: 1.05, x: '-2%', y: '1%' },
   },
   {
-    src: 'https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=2000&q=80',
-    location: 'Forest Canopy',
+    src: 'https://images.unsplash.com/photo-1414449381078-c7768b8f19b8?auto=format&fit=crop&w=2000&q=80',
+    location: 'Deep Waters',
     panFrom: { scale: 1.1, x: '-1%', y: '2%' },
     panTo:   { scale: 1.05, x: '1%', y: '-2%' },
   },
   {
-    src: 'https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?auto=format&fit=crop&w=2000&q=80',
-    location: 'River Valley',
+    src: 'https://images.unsplash.com/photo-1477322524744-0eece9e79640?auto=format&fit=crop&w=2000&q=80',
+    location: 'Foggy Canopy',
     panFrom: { scale: 1.1, x: '1%',  y: '0%' },
     panTo:   { scale: 1.05, x: '-1%', y: '-2%' },
   },
@@ -79,68 +79,52 @@ const CROSSFADE_DURATION = 2.4;
 export const Hero: React.FC<HeroProps> = ({ setCursorState }) => {
   const sectionRef = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState(0);
-  const [prev, setPrev] = useState<number | null>(null);
 
   const { scrollYProgress } = useScroll({ target: sectionRef, offset: ['start start', 'end start'] });
   const contentY = useTransform(scrollYProgress, [0, 1], ['0%', '14%']);
 
   useEffect(() => {
     const id = setInterval(() => {
-      setPrev(active);
       setActive(i => (i + 1) % bgSlides.length);
     }, 5500);
     return () => clearInterval(id);
-  }, [active]);
-
-  const slide = bgSlides[active];
+  }, []);
 
   return (
     <section ref={sectionRef} className="relative min-h-screen flex flex-col justify-center overflow-hidden bg-[#080808]">
 
       {/* ══ BACKGROUND SYSTEM ══ */}
-      <div className="absolute inset-0 z-0 overflow-hidden">
-
-        {/* Previous image — fades out */}
-        {prev !== null && (
+      <div className="absolute inset-0 z-0 overflow-hidden bg-[#080808]">
+        {bgSlides.map((slide, i) => (
           <motion.div
-            key={`prev-${prev}`}
+            key={i}
             className="absolute inset-0"
-            initial={{ opacity: 1 }}
-            animate={{ opacity: 0 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: active === i ? 1 : 0, zIndex: active === i ? 1 : 0 }}
             transition={{ duration: CROSSFADE_DURATION, ease: 'easeInOut' }}
           >
-            <img
-              src={bgSlides[prev].src}
+            <motion.img
+              src={slide.src}
               alt=""
               className="w-full h-full object-cover"
+              initial={{ scale: slide.panFrom.scale, x: slide.panFrom.x, y: slide.panFrom.y }}
+              animate={
+                active === i
+                  ? { scale: slide.panTo.scale, x: slide.panTo.x, y: slide.panTo.y }
+                  : { scale: slide.panFrom.scale, x: slide.panFrom.x, y: slide.panFrom.y }
+              }
+              transition={{ duration: 8, ease: 'linear' }}
             />
           </motion.div>
-        )}
+        ))}
 
-        {/* Current image — cinematic crossfade + Ken Burns */}
-        <motion.div
-          key={`active-${active}`}
-          className="absolute inset-0"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: CROSSFADE_DURATION, ease: 'easeInOut' }}
-        >
-          <motion.img
-            src={slide.src}
-            alt=""
-            className="w-full h-full object-cover"
-            initial={{ scale: slide.panFrom.scale, x: slide.panFrom.x, y: slide.panFrom.y }}
-            animate={{ scale: slide.panTo.scale,   x: slide.panTo.x,   y: slide.panTo.y }}
-            transition={{ duration: 7, ease: 'linear' }}
-          />
-        </motion.div>
-
-        {/* Warm cinematic color grade */}
-        <div className="absolute inset-0 bg-amber-950/25 mix-blend-multiply pointer-events-none" />
+        {/* Heavy dark atmospheric color grade */}
+        <div className="absolute inset-0 z-10 bg-[#040404]/50 pointer-events-none" />
+        <div className="absolute inset-0 z-10 bg-amber-950/30 mix-blend-multiply pointer-events-none" />
 
         {/* Vignettes */}
-        <div className="absolute inset-0 bg-gradient-to-r from-[#080808]/95 via-[#080808]/65 to-[#080808]/20 pointer-events-none" />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#080808] via-transparent to-[#080808]/75 pointer-events-none" />
+        <div className="absolute inset-0 z-10 bg-gradient-to-r from-[#080808]/95 via-[#080808]/50 to-transparent pointer-events-none" />
+        <div className="absolute inset-0 z-10 bg-gradient-to-t from-[#080808] via-transparent to-[#080808]/60 pointer-events-none" />
 
         {/* Subtle warm bottom glow */}
         <div className="absolute bottom-0 right-1/4 w-[600px] h-[400px] rounded-full bg-accent-amber/8 blur-[130px] pointer-events-none" />
@@ -160,7 +144,7 @@ export const Hero: React.FC<HeroProps> = ({ setCursorState }) => {
         {bgSlides.map((_, i) => (
           <button
             key={i}
-            onClick={() => { setPrev(active); setActive(i); }}
+            onClick={() => setActive(i)}
             aria-label={`Slide ${i + 1}`}
             className="transition-all duration-500"
           >
