@@ -1,29 +1,26 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { CheckCircle2, Clock, Sparkles, ArrowDown } from 'lucide-react';
+import { CheckCircle2, Clock } from 'lucide-react';
 import { roadmapSteps } from '../data/portfolioData';
 import { CursorState } from './CustomCursor';
 
 interface LearningRoadmapProps {
-  setCursorState: (state: CursorState) => void;
+  setCursorState?: (state: CursorState) => void;
 }
 
-export const LearningRoadmap: React.FC<LearningRoadmapProps> = ({ setCursorState }) => {
+export const LearningRoadmap: React.FC<LearningRoadmapProps> = () => {
   return (
-    <section id="learning" className="py-24 md:py-36 px-6 md:px-12 bg-bg-surface/30 relative border-t border-border-subtle">
-      <div className="max-w-7xl mx-auto space-y-16">
+    <section id="learning" className="py-24 md:py-32 px-6 md:px-12 bg-bg-primary relative border-t border-border-subtle/60">
+      <div className="max-w-7xl mx-auto space-y-14">
         
         {/* Section Header */}
-        <div className="space-y-4 max-w-3xl">
+        <div className="space-y-2 border-b border-border-subtle/50 pb-6">
           <span className="text-xs font-mono tracking-widest text-accent-gold uppercase">
             08 // ROADMAP & GROWTH
           </span>
-          <h2 className="text-4xl sm:text-6xl font-display font-extrabold text-text-primary tracking-tight">
+          <h2 className="text-4xl sm:text-5xl font-display font-extrabold text-text-primary tracking-tight">
             WHAT I'M LEARNING RIGHT NOW
           </h2>
-          <p className="text-base text-text-secondary font-light leading-relaxed">
-            A structured computational roadmap detailing my ongoing evolution from fundamental programming to advanced Artificial Intelligence & Machine Learning Engineering.
-          </p>
         </div>
 
         {/* Pipeline Vertical Node Diagram */}
@@ -40,12 +37,10 @@ export const LearningRoadmap: React.FC<LearningRoadmapProps> = ({ setCursorState
             return (
               <motion.div
                 key={node.step}
-                initial={{ opacity: 0, y: 30 }}
+                initial={{ opacity: 0, y: 24 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-60px' }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                onMouseEnter={() => setCursorState({ type: 'hover', label: node.title })}
-                onMouseLeave={() => setCursorState({ type: 'default' })}
+                viewport={{ once: true, margin: '-50px' }}
+                transition={{ duration: 0.5, delay: index * 0.08 }}
                 className={`relative z-10 flex flex-col sm:flex-row items-start sm:items-center ${
                   isLeft ? 'sm:flex-row-reverse' : ''
                 }`}
@@ -90,7 +85,7 @@ export const LearningRoadmap: React.FC<LearningRoadmapProps> = ({ setCursorState
                       {node.technologies.map((tech) => (
                         <span
                           key={tech}
-                          className="px-2 py-0.5 rounded-md bg-bg-surface text-[10px] font-mono text-text-secondary border border-border-subtle"
+                          className="px-2 py-0.5 rounded-md bg-bg-surface text-[10px] font-mono text-text-secondary border border-border-subtle/60"
                         >
                           {tech}
                         </span>

@@ -7,7 +7,7 @@ import { CursorState } from './CustomCursor';
 interface ProjectModalProps {
   project: Project | null;
   onClose: () => void;
-  setCursorState: (state: CursorState) => void;
+  setCursorState?: (state: CursorState) => void;
 }
 
 export const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose, setCursorState }) => {
@@ -55,8 +55,8 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose, se
             </div>
             <button
               onClick={onClose}
-              onMouseEnter={() => setCursorState({ type: 'hover', label: 'CLOSE' })}
-              onMouseLeave={() => setCursorState({ type: 'default' })}
+              onMouseEnter={() => setCursorState?.({ type: 'hover', label: 'CLOSE' })}
+              onMouseLeave={() => setCursorState?.({ type: 'default' })}
               aria-label="Close modal"
               className="p-2 rounded-full bg-bg-surface text-text-secondary hover:text-text-primary hover:bg-bg-primary transition-colors"
             >
@@ -138,8 +138,8 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose, se
                 href={project.githubUrl}
                 target="_blank"
                 rel="noreferrer"
-                onMouseEnter={() => setCursorState({ type: 'open', label: 'GITHUB' })}
-                onMouseLeave={() => setCursorState({ type: 'default' })}
+                onMouseEnter={() => setCursorState?.({ type: 'open', label: 'GITHUB' })}
+                onMouseLeave={() => setCursorState?.({ type: 'default' })}
                 className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-bg-card border border-border-subtle text-text-primary font-display font-semibold text-sm hover:border-accent-amber hover:text-accent-gold transition-all"
               >
                 <Github className="h-4 w-4" /> VIEW SOURCE CODE
@@ -150,8 +150,8 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose, se
                   href={project.liveUrl}
                   target="_blank"
                   rel="noreferrer"
-                  onMouseEnter={() => setCursorState({ type: 'open', label: 'DEMO' })}
-                  onMouseLeave={() => setCursorState({ type: 'default' })}
+                  onMouseEnter={() => setCursorState?.({ type: 'open', label: 'DEMO' })}
+                  onMouseLeave={() => setCursorState?.({ type: 'default' })}
                   className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-accent-amber text-bg-primary font-display font-bold text-sm hover:bg-accent-gold transition-all"
                 >
                   <ExternalLink className="h-4 w-4" /> LIVE DEMO <ArrowRight className="h-4 w-4" />

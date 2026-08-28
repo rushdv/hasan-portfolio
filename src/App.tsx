@@ -14,17 +14,32 @@ import { LearningRoadmap } from './components/LearningRoadmap';
 import { Interests } from './components/Interests';
 import { Contact } from './components/Contact';
 import { Footer } from './components/Footer';
+import { AdminAuthModal } from './components/AdminAuthModal';
 
 export const App: React.FC = () => {
   const [cursorState, setCursorState] = useState<CursorState>({ type: 'default' });
+  const [isAdminAuthenticated, setIsAdminAuthenticated] = useState(false);
+  const [isAdminAuthModalOpen, setIsAdminAuthModalOpen] = useState(false);
 
   return (
     <div className="min-h-screen bg-bg-primary text-text-primary selection:bg-accent-amber/30 selection:text-accent-gold relative">
       {/* Custom Context-Aware Interactive Cursor (Desktop) */}
       <CustomCursor cursorState={cursorState} />
 
+      {/* Global Admin Authentication Modal */}
+      <AdminAuthModal
+        isOpen={isAdminAuthModalOpen}
+        onClose={() => setIsAdminAuthModalOpen(false)}
+        onLoginSuccess={() => setIsAdminAuthenticated(true)}
+      />
+
       {/* Navigation Header */}
-      <Navbar setCursorState={setCursorState} />
+      <Navbar
+        setCursorState={setCursorState}
+        isAdminAuthenticated={isAdminAuthenticated}
+        onOpenAdminAuthModal={() => setIsAdminAuthModalOpen(true)}
+        onLogoutAdmin={() => setIsAdminAuthenticated(false)}
+      />
 
       {/* Hero Section */}
       <Hero setCursorState={setCursorState} />
@@ -52,7 +67,11 @@ export const App: React.FC = () => {
       />
 
       {/* Travel & Interactive Map */}
-      <Travel setCursorState={setCursorState} />
+      <Travel
+        setCursorState={setCursorState}
+        isAdminAuthenticated={isAdminAuthenticated}
+        onAuthenticateAdmin={() => setIsAdminAuthenticated(true)}
+      />
 
       {/* Visual Photography Journal */}
       <Photography setCursorState={setCursorState} />

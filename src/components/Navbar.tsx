@@ -1,14 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, ArrowUpRight } from 'lucide-react';
+import { Menu, X, ArrowUpRight, ShieldCheck, Lock, LogOut } from 'lucide-react';
 import { personalInfo } from '../data/portfolioData';
 import { CursorState } from './CustomCursor';
 
 interface NavbarProps {
   setCursorState: (state: CursorState) => void;
+  isAdminAuthenticated?: boolean;
+  onOpenAdminAuthModal?: () => void;
+  onLogoutAdmin?: () => void;
 }
 
-export const Navbar: React.FC<NavbarProps> = ({ setCursorState }) => {
+export const Navbar: React.FC<NavbarProps> = ({
+  setCursorState,
+  isAdminAuthenticated = false,
+  onOpenAdminAuthModal,
+  onLogoutAdmin,
+}) => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -70,8 +78,32 @@ export const Navbar: React.FC<NavbarProps> = ({ setCursorState }) => {
             ))}
           </nav>
 
-          {/* CTA / Contact Button */}
-          <div className="hidden md:flex items-center gap-4">
+          {/* CTA & Global Admin Trigger */}
+          <div className="hidden md:flex items-center gap-3">
+            {isAdminAuthenticated ? (
+              <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 text-xs font-mono">
+                <ShieldCheck className="h-3.5 w-3.5" />
+                <span>ADMIN ACTIVE</span>
+                <button
+                  onClick={onLogoutAdmin}
+                  className="ml-1 text-text-muted hover:text-rose-400 transition-colors"
+                  title="Logout Admin"
+                >
+                  <LogOut className="h-3 w-3" />
+                </button>
+              </div>
+            ) : (
+              <button
+                onClick={onOpenAdminAuthModal}
+                onMouseEnter={() => setCursorState({ type: 'hover', label: 'ADMIN' })}
+                onMouseLeave={() => setCursorState({ type: 'default' })}
+                className="p-2 rounded-full bg-bg-card border border-border-subtle text-text-secondary hover:text-accent-gold hover:border-accent-amber transition-all duration-300"
+                title="Admin Login"
+              >
+                <Lock className="h-3.5 w-3.5" />
+              </button>
+            )}
+
             <a
               href="#contact"
               onMouseEnter={() => setCursorState({ type: 'hover', label: 'SAY HELLO' })}
@@ -104,7 +136,22 @@ export const Navbar: React.FC<NavbarProps> = ({ setCursorState }) => {
             className="fixed inset-0 z-30 bg-bg-primary/95 backdrop-blur-xl md:hidden pt-24 px-8 pb-12 flex flex-col justify-between"
           >
             <div className="flex flex-col gap-6">
-              <span className="text-[10px] font-mono tracking-widest text-text-muted uppercase">Navigation</span>
+              <div className="flex items-center justify-between">
+                <span className="text-[10px] font-mono tracking-widest text-text-muted uppercase">Navigation</span>
+                {isAdminAuthenticated ? (
+                  <span className="text-xs font-mono text-emerald-400 flex items-center gap-1">
+                    <ShieldCheck className="h-3 w-3" /> Admin Active
+                  </span>
+                ) : (
+                  <button
+                    onClick={() => { setMobileMenuOpen(false); onOpenAdminAuthModal?.(); }}
+                    className="text-xs font-mono text-accent-gold flex items-center gap-1"
+                  >
+                    <Lock className="h-3 w-3" /> Admin Login
+                  </button>
+                )}
+              </div>
+
               {navLinks.map((link, index) => (
                 <motion.a
                   key={link.name}
