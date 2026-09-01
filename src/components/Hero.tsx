@@ -118,16 +118,17 @@ export const Hero: React.FC<HeroProps> = ({ setCursorState }) => {
           </motion.div>
         ))}
 
-        {/* Heavy dark atmospheric color grade */}
-        <div className="absolute inset-0 z-10 bg-[#040404]/50 pointer-events-none" />
-        <div className="absolute inset-0 z-10 bg-amber-950/30 mix-blend-multiply pointer-events-none" />
+        {/* Lightened atmospheric overlay - showing nature better */}
+        <div className="absolute inset-0 z-10 bg-[#040404]/25 pointer-events-none" />
+        <div className="absolute inset-0 z-10 bg-amber-950/15 mix-blend-multiply pointer-events-none" />
 
-        {/* Vignettes */}
-        <div className="absolute inset-0 z-10 bg-gradient-to-r from-[#080808]/95 via-[#080808]/50 to-transparent pointer-events-none" />
-        <div className="absolute inset-0 z-10 bg-gradient-to-t from-[#080808] via-transparent to-[#080808]/60 pointer-events-none" />
+        {/* Refined vignettes - less aggressive */}
+        <div className="absolute inset-0 z-10 bg-gradient-to-r from-[#080808]/75 via-[#080808]/30 to-transparent pointer-events-none" />
+        <div className="absolute inset-0 z-10 bg-gradient-to-t from-[#080808]/90 via-transparent to-[#080808]/40 pointer-events-none" />
 
-        {/* Subtle warm bottom glow */}
-        <div className="absolute bottom-0 right-1/4 w-[600px] h-[400px] rounded-full bg-accent-amber/8 blur-[130px] pointer-events-none" />
+        {/* Enhanced warm glow - more visible */}
+        <div className="absolute bottom-0 right-1/4 w-[600px] h-[400px] rounded-full bg-accent-amber/12 blur-[130px] pointer-events-none" />
+        <div className="absolute top-1/4 left-1/3 w-[400px] h-[400px] rounded-full bg-amber-500/6 blur-[120px] pointer-events-none" />
 
         {/* Film grain */}
         <div
