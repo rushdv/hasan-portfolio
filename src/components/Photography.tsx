@@ -20,6 +20,9 @@ export const Photography: React.FC<PhotographyProps> = ({ setCursorState }) => {
     ? photoGallery
     : photoGallery.filter((p) => p.category === activeCategory);
 
+  const getCategoryCount = (cat: string) => 
+    cat === 'ALL' ? photoGallery.length : photoGallery.filter((p) => p.category === cat).length;
+
   const handleNavigate = (direction: 'next' | 'prev') => {
     if (activePhotoIndex === null) return;
     if (direction === 'next') {
@@ -37,7 +40,7 @@ export const Photography: React.FC<PhotographyProps> = ({ setCursorState }) => {
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-8">
           <div className="space-y-3">
             <div className="inline-flex items-center gap-2 text-xs font-mono text-accent-gold uppercase tracking-widest">
-              <Camera className="h-4 w-4" /> 05 // VISUAL JOURNAL
+              <Camera className="h-4 w-4" /> 05 // VISUAL JOURNAL ({filteredPhotos.length} {filteredPhotos.length === 1 ? 'PHOTO' : 'PHOTOS'})
             </div>
             <h2 className="text-4xl sm:text-6xl font-display font-extrabold text-text-primary tracking-tight">
               FRAMES FROM MY JOURNEY
@@ -49,21 +52,24 @@ export const Photography: React.FC<PhotographyProps> = ({ setCursorState }) => {
 
           {/* Category Filter Tabs */}
           <div className="flex flex-wrap items-center gap-2">
-            {categories.map((cat) => (
-              <button
-                key={cat}
-                onClick={() => setActiveCategory(cat)}
-                onMouseEnter={() => setCursorState({ type: 'hover', label: cat })}
-                onMouseLeave={() => setCursorState({ type: 'default' })}
-                className={`px-4 py-2 rounded-xl text-xs font-mono transition-all duration-300 ${
-                  activeCategory === cat
-                    ? 'bg-accent-amber text-bg-primary font-bold shadow-lg shadow-accent-amber/20'
-                    : 'bg-bg-surface border border-border-subtle text-text-secondary hover:text-accent-gold hover:border-accent-amber/40'
-                }`}
-              >
-                {cat}
-              </button>
-            ))}
+            {categories.map((cat) => {
+              const count = getCategoryCount(cat);
+              return (
+                <button
+                  key={cat}
+                  onClick={() => setActiveCategory(cat)}
+                  onMouseEnter={() => setCursorState({ type: 'hover', label: `${cat} (${count})` })}
+                  onMouseLeave={() => setCursorState({ type: 'default' })}
+                  className={`px-4 py-2 rounded-xl text-xs font-mono transition-all duration-300 ${
+                    activeCategory === cat
+                      ? 'bg-accent-amber text-bg-primary font-bold shadow-lg shadow-accent-amber/20'
+                      : 'bg-bg-surface border border-border-subtle text-text-secondary hover:text-accent-gold hover:border-accent-amber/40'
+                  }`}
+                >
+                  {cat} <span className="opacity-75 text-[10px]">({count})</span>
+                </button>
+              );
+            })}
           </div>
         </div>
 
@@ -88,7 +94,7 @@ export const Photography: React.FC<PhotographyProps> = ({ setCursorState }) => {
                     src={photo.src}
                     alt={photo.title}
                     loading="lazy"
-                    className="w-full h-full object-cover transform group-hover:scale-108 transition-transform duration-700 ease-out"
+                    className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700 ease-out"
                   />
                 </div>
 
