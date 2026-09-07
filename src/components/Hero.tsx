@@ -220,7 +220,7 @@ export const Hero: React.FC<HeroProps> = ({ setCursorState }) => {
                   >
                     <span>CSE</span>
                     <span>STUDENT</span>
-                    <span className="text-accent-amber/70">2023—</span>
+                    <span className="text-accent-amber/70">2025—</span>
                   </motion.div>
                 </div>
                 <div className="overflow-hidden py-1">
