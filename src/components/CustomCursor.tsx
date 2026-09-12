@@ -9,7 +9,8 @@ interface CustomCursorProps {
   cursorState: CursorState;
 }
 
-// Custom cursor effect disabled per user request - using browser standard pointer cursor
 export const CustomCursor: React.FC<CustomCursorProps> = () => {
   return null;
 };
+
+
