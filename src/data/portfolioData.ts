@@ -13,10 +13,10 @@ import {
 export const personalInfo = {
   name: "Mehedi Hasan",
   shortName: "MH",
-  title: "CSE Student & Aspiring AI/ML Engineer",
-  roles: ["CSE Student", "Aspiring AI / Machine Learning Engineer", "Developer", "Explorer", "Photographer"],
-  tagline: "I BUILD WITH CODE. I EXPLORE BEYOND IT.",
-  subTagline: "Computer Science & Engineering student exploring software development, AI/ML, and the world beyond the screen.",
+  title: "CSE Student | Aspiring AI & Machine Learning Engineer",
+  roles: ["CSE Student", "Aspiring AI & ML Engineer", "Developer", "Explorer", "Photographer"],
+  tagline: "Building things with code, exploring the world beyond the screen.",
+  subTagline: "Building things with code, exploring the world beyond the screen.",
   location: "Dhaka, Bangladesh",
   institution: "Northern University Bangladesh",
   degree: "B.Sc. in Computer Science & Engineering",
@@ -166,6 +166,11 @@ export const travelPlaces: TravelPlace[] = [
     coordinates: { x: 80, y: 82 },
     date: "October 2025",
     photo: "/images/travel_coxsbazar.jpg",
+    photos: [
+      "/images/travel_coxsbazar.jpg",
+      "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=1200&q=80",
+    ],
     story: "Walking along the world's longest natural sea beach as golden hour turns the horizon into amber liquid. The rhythmic collapse of Atlantic-grade ocean swells puts academic noise to rest.",
     favouriteMoment: "Watching fishing sampans silhouette against a glowing dusk horizon."
   },
@@ -176,6 +181,11 @@ export const travelPlaces: TravelPlace[] = [
     coordinates: { x: 78, y: 32 },
     date: "August 2025",
     photo: "https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=1200&q=80",
+    photos: [
+      "https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1511497584788-876761c119ef?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=1200&q=80",
+    ],
     story: "Waking up at 5 AM to misty rolling tea gardens in Sreemangal and Jaflong. The fresh mountain air and monsoon river streams offer pure clarity.",
     favouriteMoment: "Gliding through the quiet flooded rainforest of Ratargul in a wooden rowboat."
   },
@@ -186,6 +196,11 @@ export const travelPlaces: TravelPlace[] = [
     coordinates: { x: 50, y: 52 },
     date: "Home Base / Ongoing",
     photo: "https://images.unsplash.com/photo-1588668214407-6ea9a6d8c272?auto=format&fit=crop&w=1200&q=80",
+    photos: [
+      "https://images.unsplash.com/photo-1588668214407-6ea9a6d8c272?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1519501025264-65ba15a82390?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1200&q=80",
+    ],
     story: "My daily canvas of code, university lectures, and urban wanderings. From the historic narrow alleys of Old Dhaka to quiet evening rooftop sunset walks.",
     favouriteMoment: "Capturing rain-drenched street lights reflecting on wet asphalt after late coding sessions."
   },
@@ -196,6 +211,11 @@ export const travelPlaces: TravelPlace[] = [
     coordinates: { x: 85, y: 75 },
     date: "January 2026",
     photo: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=80",
+    photos: [
+      "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1477322524744-0eece9e79640?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1478760329108-5c3ed9d495a0?auto=format&fit=crop&w=1200&q=80",
+    ],
     story: "Ascending Nilgiri and Chimbuk Peak where cloud oceans drift below mountain tops. Hiking winding trails surrounded by bamboo forests and tribal hospitality.",
     favouriteMoment: "Standing above the cloud ceiling as the morning sun breaks over mountain ranges."
   },
@@ -206,6 +226,11 @@ export const travelPlaces: TravelPlace[] = [
     coordinates: { x: 74, y: 38 },
     date: "November 2025",
     photo: "https://images.unsplash.com/photo-1511497584788-876761c119ef?auto=format&fit=crop&w=1200&q=80",
+    photos: [
+      "https://images.unsplash.com/photo-1511497584788-876761c119ef?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=1200&q=80",
+    ],
     story: "Exploring Lawachara National Park under dense canopy shade. The crisp aroma of rain and tea leaves makes it a haven for deep reflection.",
     favouriteMoment: "Sipping traditional Seven-Layer Tea after a 12km forest trek."
   }
