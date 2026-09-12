@@ -8,33 +8,41 @@ export default {
   theme: {
     extend: {
       colors: {
-        bg: {
-          primary: '#08080a',
-          surface: '#111116',
-          card: '#16161d',
-          cardHover: '#1c1c26',
-        },
+        ink: '#0A0A09',
+        charcoal: '#191817',
+        warmPaper: '#F1EEE7',
+        warmGray: '#B7B1A7',
+        stone: '#76716A',
         accent: {
-          amber: '#d4af37',
-          gold: '#e5b869',
-          warm: '#f59e0b',
-          glow: 'rgba(212, 175, 55, 0.15)',
+          DEFAULT: '#C7A66A',
+          amber: '#C7A66A',
+          gold: '#E5B869',
+          warm: '#F59E0B',
+          glow: 'rgba(199, 166, 106, 0.12)',
+        },
+        bg: {
+          primary: '#0A0A09',
+          surface: '#141413',
+          card: '#1B1A19',
+          cardHover: '#232220',
+          paper: '#F1EEE7',
         },
         text: {
-          primary: '#f3f4f6',
-          secondary: '#9ca3af',
-          muted: '#6b7280',
+          primary: '#F1EEE7',
+          secondary: '#B7B1A7',
+          muted: '#76716A',
+          dark: '#0A0A09',
         },
         border: {
-          subtle: '#23232e',
-          accent: 'rgba(212, 175, 55, 0.3)',
+          subtle: '#262523',
+          accent: 'rgba(199, 166, 106, 0.3)',
         }
       },
       fontFamily: {
-        sans: ['Plus Jakarta Sans', 'sans-serif'],
-        display: ['Unbounded', 'Syne', 'sans-serif'],
-        serif: ['Syne', 'Georgia', 'serif'],
-        mono: ['Space Grotesk', 'Fira Code', 'monospace'],
+        sans: ['var(--font-body)', 'Manrope', 'Plus Jakarta Sans', 'sans-serif'],
+        display: ['var(--font-display)', 'Cormorant Garamond', 'Georgia', 'serif'],
+        serif: ['Cormorant Garamond', 'Georgia', 'serif'],
+        mono: ['var(--font-mono)', 'Space Grotesk', 'Fira Code', 'monospace'],
       },
       animation: {
         'pulse-subtle': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
@@ -53,7 +61,7 @@ export default {
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-        'dark-noise': 'radial-gradient(circle at 50% 50%, rgba(212, 175, 55, 0.05) 0%, transparent 60%)',
+        'dark-noise': 'radial-gradient(circle at 50% 50%, rgba(199, 166, 106, 0.04) 0%, transparent 65%)',
       }
     },
   },
