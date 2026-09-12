@@ -14,7 +14,7 @@ export const Interests: React.FC<InterestsProps> = ({ setCursorState }) => {
   return (
     <section
       id="interests"
-      className="py-24 md:py-32 px-6 md:px-12 bg-bg-primary relative border-t border-border-subtle overflow-hidden"
+      className="py-24 md:py-36 px-6 md:px-12 bg-charcoal relative border-t border-border-subtle overflow-hidden text-warmPaper"
     >
       {/* Background image — stronger opacity */}
       <AnimatePresence mode="wait">
@@ -31,8 +31,8 @@ export const Interests: React.FC<InterestsProps> = ({ setCursorState }) => {
             alt={activeInterest.title}
             className="w-full h-full object-cover filter grayscale contrast-[1.1]"
           />
-          <div className="absolute inset-0 bg-bg-primary/80" />
-          <div className="absolute inset-0 bg-gradient-to-r from-bg-primary via-bg-primary/90 to-bg-primary/60" />
+          <div className="absolute inset-0 bg-charcoal/85" />
+          <div className="absolute inset-0 bg-gradient-to-r from-charcoal via-charcoal/90 to-charcoal/60" />
         </motion.div>
       </AnimatePresence>
 
@@ -51,13 +51,13 @@ export const Interests: React.FC<InterestsProps> = ({ setCursorState }) => {
               className="space-y-2"
             >
               <div className="flex items-center gap-3">
-                <span className="h-px w-8 bg-accent-amber/60" />
-                <span className="text-xs font-mono tracking-widest text-accent-gold uppercase">
-                  09 // BEYOND ACADEMICS
+                <span className="h-px w-8 bg-accent/60" />
+                <span className="text-xs font-mono tracking-widest text-accent uppercase">
+                  07 // BEYOND THE SCREEN
                 </span>
               </div>
-              <h2 className="text-4xl sm:text-6xl font-display font-extrabold text-text-primary tracking-tight">
-                INTERESTS & PASSIONS
+              <h2 className="text-4xl sm:text-6xl font-display font-light text-warmPaper tracking-tight">
+                PERSONAL PASSIONS
               </h2>
             </motion.div>
 
@@ -79,21 +79,21 @@ export const Interests: React.FC<InterestsProps> = ({ setCursorState }) => {
                     onMouseLeave={() => setCursorState({ type: 'default' })}
                     className={`group cursor-pointer rounded-2xl border transition-all duration-400 overflow-hidden ${
                       isActive
-                        ? 'bg-bg-surface/80 border-accent-amber/40 shadow-lg shadow-accent-amber/5'
-                        : 'bg-bg-surface/40 border-border-subtle/50 hover:border-accent-amber/25 hover:bg-bg-surface/60'
+                        ? 'bg-bg-card border-accent/40 shadow-xl'
+                        : 'bg-bg-surface/50 border-border-subtle hover:border-accent/25 hover:bg-bg-surface'
                     }`}
                   >
                     <div className="p-5 sm:p-7 flex items-center justify-between gap-6">
                       <div className="flex items-center gap-5 min-w-0">
                         {/* Number */}
-                        <span className={`text-xs font-mono font-bold shrink-0 transition-colors ${isActive ? 'text-accent-gold' : 'text-text-muted/50'}`}>
+                        <span className={`text-xs font-mono font-bold shrink-0 transition-colors ${isActive ? 'text-accent' : 'text-stone'}`}>
                           {item.number}
                         </span>
                         {/* Active indicator dot */}
-                        <span className={`shrink-0 h-1.5 w-1.5 rounded-full transition-all duration-300 ${isActive ? 'bg-accent-amber scale-125' : 'bg-transparent'}`} />
+                        <span className={`shrink-0 h-1.5 w-1.5 rounded-full transition-all duration-300 ${isActive ? 'bg-accent scale-125' : 'bg-transparent'}`} />
                         {/* Title */}
-                        <h3 className={`text-2xl sm:text-3xl lg:text-4xl font-display font-black tracking-tight transition-all duration-300 truncate ${
-                          isActive ? 'text-accent-gold translate-x-1' : 'text-text-primary/70 group-hover:text-text-primary'
+                        <h3 className={`text-2xl sm:text-3xl lg:text-4xl font-display font-light tracking-tight transition-all duration-300 truncate ${
+                          isActive ? 'text-accent translate-x-1' : 'text-warmPaper/70 group-hover:text-warmPaper'
                         }`}>
                           {item.title}
                         </h3>
@@ -109,28 +109,12 @@ export const Interests: React.FC<InterestsProps> = ({ setCursorState }) => {
                             transition={{ duration: 0.3 }}
                             className="hidden sm:block text-right max-w-[220px] shrink-0 space-y-1"
                           >
-                            <span className="text-[10px] font-mono text-accent-amber uppercase tracking-wider block">{item.subtitle}</span>
-                            <p className="text-xs text-text-secondary leading-relaxed line-clamp-2">{item.description}</p>
+                            <span className="text-[10px] font-mono text-accent uppercase tracking-widest block">{item.subtitle}</span>
+                            <p className="text-xs text-warmGray leading-relaxed line-clamp-2">{item.description}</p>
                           </motion.div>
                         )}
                       </AnimatePresence>
                     </div>
-
-                    {/* Mobile: description shown below when active */}
-                    <AnimatePresence>
-                      {isActive && (
-                        <motion.div
-                          initial={{ height: 0, opacity: 0 }}
-                          animate={{ height: 'auto', opacity: 1 }}
-                          exit={{ height: 0, opacity: 0 }}
-                          transition={{ duration: 0.3 }}
-                          className="sm:hidden overflow-hidden border-t border-accent-amber/20 px-5 pb-4"
-                        >
-                          <span className="text-[10px] font-mono text-accent-amber uppercase tracking-wider block mt-3">{item.subtitle}</span>
-                          <p className="text-xs text-text-secondary leading-relaxed mt-1">{item.description}</p>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
                   </motion.div>
                 );
               })}
@@ -149,28 +133,28 @@ export const Interests: React.FC<InterestsProps> = ({ setCursorState }) => {
                 className="space-y-4"
               >
                 {/* Image */}
-                <div className="relative aspect-[4/5] rounded-2xl overflow-hidden border border-accent-amber/20 shadow-2xl">
+                <div className="relative aspect-[4/5] rounded-2xl overflow-hidden border border-accent/30 shadow-2xl">
                   <img
                     src={activeInterest.bgImage}
                     alt={activeInterest.title}
                     className="w-full h-full object-cover"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-bg-primary/80 via-transparent to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-charcoal/90 via-transparent to-transparent" />
 
                   {/* Overlay label */}
-                  <div className="absolute bottom-4 left-4 right-4 space-y-1">
-                    <span className="text-[10px] font-mono text-accent-gold uppercase tracking-widest block">
+                  <div className="absolute bottom-5 left-5 right-5 space-y-1">
+                    <span className="text-[10px] font-mono text-accent uppercase tracking-widest block">
                       {activeInterest.subtitle}
                     </span>
-                    <h3 className="text-xl font-display font-bold text-white">
+                    <h3 className="text-2xl font-display font-light text-warmPaper">
                       {activeInterest.title}
                     </h3>
                   </div>
                 </div>
 
                 {/* Description card */}
-                <div className="p-4 rounded-xl bg-bg-surface border border-border-subtle">
-                  <p className="text-sm text-text-secondary leading-relaxed">{activeInterest.description}</p>
+                <div className="p-4 rounded-xl bg-bg-card border border-border-subtle">
+                  <p className="text-xs text-warmGray leading-relaxed">{activeInterest.description}</p>
                 </div>
               </motion.div>
             </AnimatePresence>
