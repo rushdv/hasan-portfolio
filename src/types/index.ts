@@ -32,6 +32,8 @@ export interface TravelPlace {
   coordinates: { x: number; y: number };
   date: string;
   photo: string;
+  /** Additional journey photos — cover photo is always first */
+  photos?: string[];
   story: string;
   favouriteMoment: string;
 }
