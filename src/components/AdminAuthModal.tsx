@@ -20,13 +20,14 @@ export const AdminAuthModal: React.FC<AdminAuthModalProps> = ({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (password === 'admin123' || password === 'mehedi2026' || password === 'mehedi') {
+    const adminPassword = import.meta.env.VITE_ADMIN_PASSWORD;
+    if (adminPassword && password === adminPassword) {
       onLoginSuccess();
       setPassword('');
       setError('');
       onClose();
     } else {
-      setError('Incorrect Admin Password. Try: mehedi2026');
+      setError('Incorrect admin password.');
     }
   };
 
@@ -72,7 +73,7 @@ export const AdminAuthModal: React.FC<AdminAuthModalProps> = ({
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              placeholder="Enter password (e.g. mehedi2026)"
+              placeholder="Enter admin password"
               className="w-full px-4 py-3 rounded-xl bg-bg-card border border-border-subtle text-text-primary text-sm focus:border-accent-amber focus:outline-none transition-colors"
               autoFocus
             />

@@ -48,11 +48,12 @@ export const AdminTravelModal: React.FC<AdminTravelModalProps> = ({
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    if (password === 'admin123' || password === 'mehedi2026' || password === 'mehedi') {
+    const adminPassword = import.meta.env.VITE_ADMIN_PASSWORD;
+    if (adminPassword && password === adminPassword) {
       onAuthenticate();
       setAuthError('');
     } else {
-      setAuthError('Incorrect Password. Try: mehedi2026');
+      setAuthError('Incorrect password.');
     }
   };
 
@@ -136,7 +137,7 @@ export const AdminTravelModal: React.FC<AdminTravelModalProps> = ({
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                placeholder="Enter password (e.g. mehedi2026)"
+                placeholder="Enter admin password"
                 className="w-full px-4 py-3 rounded-xl bg-bg-card border border-border-subtle text-text-primary text-sm focus:border-accent-amber focus:outline-none transition-colors"
                 autoFocus
               />
