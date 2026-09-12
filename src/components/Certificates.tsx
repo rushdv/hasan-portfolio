@@ -2,38 +2,29 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Award, ArrowUpRight, ShieldCheck } from 'lucide-react';
 import { certificates } from '../data/portfolioData';
-import { CursorState } from './CustomCursor';
+import type { CursorState } from './CustomCursor';
 
 interface CertificatesProps {
   setCursorState: (state: CursorState) => void;
 }
 
-const certColors = [
-  'from-amber-500/10 to-transparent border-amber-500/20',
-  'from-blue-500/10 to-transparent border-blue-500/20',
-  'from-purple-500/10 to-transparent border-purple-500/20',
-  'from-emerald-500/10 to-transparent border-emerald-500/20',
-];
-
-const certAccents = [
-  'text-amber-400',
-  'text-blue-400',
-  'text-purple-400',
-  'text-emerald-400',
+const COLORS = [
+  { gradient: 'from-amber-500/8', border: 'border-amber-500/20', accent: 'text-amber-400', bg: 'bg-amber-950/30' },
+  { gradient: 'from-blue-500/8',  border: 'border-blue-500/20',  accent: 'text-blue-400',  bg: 'bg-blue-950/30' },
+  { gradient: 'from-purple-500/8',border: 'border-purple-500/20',accent: 'text-purple-400',bg: 'bg-purple-950/30'},
+  { gradient: 'from-emerald-500/8',border:'border-emerald-500/20',accent:'text-emerald-400',bg:'bg-emerald-950/30'},
 ];
 
 export const Certificates: React.FC<CertificatesProps> = ({ setCursorState }) => {
   return (
     <section
       id="certificates"
-      className="py-24 md:py-32 px-6 md:px-12 bg-bg-primary relative border-t border-border-subtle overflow-hidden"
+      className="py-20 md:py-28 px-6 md:px-12 bg-ink relative border-t border-[#2C2B27] overflow-hidden text-warmPaper"
     >
-      {/* Ambient */}
-      <div className="absolute bottom-0 left-1/4 w-[400px] h-[300px] bg-accent-amber/4 rounded-full blur-[100px] pointer-events-none" />
+      <div className="absolute bottom-0 left-1/4 w-[400px] h-[300px] bg-accent/4 rounded-full blur-[120px] pointer-events-none" />
 
-      <div className="max-w-7xl mx-auto space-y-14 relative z-10">
+      <div className="max-w-7xl mx-auto space-y-12 relative z-10">
 
-        {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -42,78 +33,72 @@ export const Certificates: React.FC<CertificatesProps> = ({ setCursorState }) =>
           className="flex flex-col md:flex-row md:items-end justify-between gap-6"
         >
           <div className="space-y-2">
-            <div className="flex items-center gap-3">
-              <span className="h-px w-8 bg-accent-amber/60" />
-              <span className="text-xs font-mono tracking-widest text-accent-gold uppercase">
-                07 // CREDENTIALS
-              </span>
-            </div>
-            <h2 className="text-4xl sm:text-6xl font-display font-extrabold text-text-primary tracking-tight">
-              CERTIFICATES & TRACKS
+            <span className="h-px w-8 bg-accent/60 block" />
+            <span className="font-mono text-[10px] tracking-widest text-accent uppercase block">
+              Credentials &amp; recognition
+            </span>
+            <h2
+              className="font-display font-light text-warmPaper"
+              style={{ fontSize: 'clamp(2rem, 4vw, 3rem)' }}
+            >
+              Certificates &amp; Tracks
             </h2>
           </div>
-          <p className="text-sm font-mono text-text-secondary max-w-sm leading-relaxed">
-            Verified certifications and active learning achievements across software engineering & data foundations.
+          <p className="font-mono text-xs text-warmGray max-w-sm leading-relaxed">
+            Verified certifications and active learning achievements across software engineering &amp; data foundations.
           </p>
         </motion.div>
 
-        {/* Certificate cards grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-          {certificates.map((cert, index) => {
-            const color = certColors[index % certColors.length];
-            const accent = certAccents[index % certAccents.length];
-
+          {certificates.map((cert, idx) => {
+            const c = COLORS[idx % COLORS.length];
             return (
               <motion.div
                 key={cert.id}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: '-40px' }}
-                transition={{ duration: 0.55, delay: index * 0.1, ease: [0.22, 1, 0.36, 1] }}
+                transition={{ duration: 0.55, delay: idx * 0.1, ease: [0.22, 1, 0.36, 1] }}
                 whileHover={{ y: -4 }}
                 onMouseEnter={() => setCursorState({ type: 'open', label: 'VERIFY' })}
                 onMouseLeave={() => setCursorState({ type: 'default' })}
-                className={`group relative p-6 rounded-2xl bg-gradient-to-br ${color} bg-bg-surface border hover:shadow-xl transition-all duration-300 overflow-hidden`}
+                className={`group relative p-6 rounded-2xl bg-gradient-to-br ${c.gradient} to-transparent bg-bg-card border ${c.border} hover:shadow-xl transition-all duration-300 overflow-hidden`}
               >
-                {/* Corner award icon */}
-                <div className="absolute top-5 right-5 opacity-10 group-hover:opacity-20 transition-opacity">
-                  <Award className={`h-16 w-16 ${accent}`} />
+                {/* Watermark */}
+                <div className={`absolute top-4 right-4 opacity-8 group-hover:opacity-15 transition-opacity pointer-events-none`}>
+                  <Award className={`h-14 w-14 ${c.accent}`} />
                 </div>
 
                 <div className="relative z-10 space-y-4">
-                  {/* Top meta */}
                   <div className="flex items-center gap-2 flex-wrap">
-                    <div className={`p-1.5 rounded-lg bg-current/10 border border-current/20 ${accent}`}>
-                      <ShieldCheck className="h-3.5 w-3.5" />
+                    <div className={`p-1.5 rounded-lg ${c.bg} border ${c.border}`}>
+                      <ShieldCheck className={`h-3.5 w-3.5 ${c.accent}`} />
                     </div>
-                    <span className={`text-xs font-mono font-bold ${accent}`}>{cert.year}</span>
-                    <span className="text-xs font-mono text-text-muted">// {cert.issuer}</span>
+                    <span className={`font-mono text-xs font-bold ${c.accent}`}>{cert.year}</span>
+                    <span className="font-mono text-[10px] text-warmGray/60">// {cert.issuer}</span>
                   </div>
 
-                  {/* Title */}
-                  <h3 className="text-lg sm:text-xl font-display font-bold text-text-primary group-hover:text-accent-gold transition-colors leading-snug">
+                  <h3 className={`font-display font-light text-warmPaper group-hover:${c.accent} transition-colors text-xl leading-snug`}>
                     {cert.title}
                   </h3>
 
-                  {/* Skills */}
                   <div className="flex flex-wrap gap-1.5">
-                    {cert.skills.map((skill) => (
+                    {cert.skills.map(skill => (
                       <span
                         key={skill}
-                        className="px-2 py-0.5 rounded-md bg-bg-card text-[10px] font-mono text-text-secondary border border-border-subtle/60"
+                        className="px-2 py-0.5 rounded-md bg-bg-surface font-mono text-[10px] text-warmGray border border-border-subtle"
                       >
                         {skill}
                       </span>
                     ))}
                   </div>
 
-                  {/* Verify link */}
                   {cert.credentialUrl && (
                     <a
                       href={cert.credentialUrl}
                       target="_blank"
                       rel="noreferrer"
-                      className={`inline-flex items-center gap-1.5 text-xs font-mono font-bold ${accent} hover:opacity-80 transition-opacity`}
+                      className={`inline-flex items-center gap-1.5 font-mono text-xs font-bold ${c.accent} hover:opacity-75 transition-opacity`}
                     >
                       VERIFY CREDENTIAL
                       <ArrowUpRight className="h-3.5 w-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
@@ -124,6 +109,7 @@ export const Certificates: React.FC<CertificatesProps> = ({ setCursorState }) =>
             );
           })}
         </div>
+
       </div>
     </section>
   );
