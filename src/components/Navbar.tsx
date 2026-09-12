@@ -12,12 +12,12 @@ interface NavbarProps {
 }
 
 const navLinks = [
-  { name: 'ABOUT', href: '#about' },
-  { name: 'WORK', href: '#projects' },
-  { name: 'EXPLORE', href: '#travel' },
+  { name: 'ABOUT',       href: '#about' },
+  { name: 'WORK',        href: '#projects' },
+  { name: 'TRAVEL',      href: '#travel' },
   { name: 'PHOTOGRAPHY', href: '#photography' },
-  { name: 'LEARNING', href: '#learning' },
-  { name: 'CONTACT', href: '#contact' },
+  { name: 'LEARNING',    href: '#learning' },
+  { name: 'CONTACT',     href: '#contact' },
 ];
 
 export const Navbar: React.FC<NavbarProps> = ({
@@ -117,38 +117,28 @@ export const Navbar: React.FC<NavbarProps> = ({
           </nav>
 
           {/* Right controls */}
-          <div className="hidden md:flex items-center gap-3">
-            {isAdminAuthenticated ? (
-              <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/25 text-emerald-400 text-xs font-mono">
+          <div className="hidden md:flex items-center gap-4">
+            {isAdminAuthenticated && (
+              <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-accent/10 border border-accent/30 text-accent text-xs font-mono">
                 <ShieldCheck className="h-3 w-3" />
                 <span>ADMIN</span>
                 <button
                   onClick={onLogoutAdmin}
-                  className="ml-1 text-text-muted hover:text-rose-400 transition-colors"
+                  className="ml-1 text-stone hover:text-rose-400 transition-colors"
                   title="Logout"
                 >
                   <LogOut className="h-3 w-3" />
                 </button>
               </div>
-            ) : (
-              <button
-                onClick={onOpenAdminAuthModal}
-                onMouseEnter={() => setCursorState({ type: 'hover', label: 'ADMIN' })}
-                onMouseLeave={() => setCursorState({ type: 'default' })}
-                className="p-2 rounded-full bg-bg-card border border-border-subtle text-text-secondary hover:text-accent-gold hover:border-accent-amber transition-all duration-200"
-                title="Admin Login"
-              >
-                <Lock className="h-3.5 w-3.5" />
-              </button>
             )}
 
             <a
               href="#contact"
-              onMouseEnter={() => setCursorState({ type: 'hover', label: 'SAY HELLO' })}
+              onMouseEnter={() => setCursorState({ type: 'hover', label: 'TALK' })}
               onMouseLeave={() => setCursorState({ type: 'default' })}
-              className="inline-flex items-center gap-1.5 px-4 py-2 text-[11px] font-mono tracking-wider font-semibold rounded-full bg-accent-amber/10 border border-accent-amber/35 text-accent-gold hover:bg-accent-amber hover:text-bg-primary transition-all duration-250"
+              className="inline-flex items-center gap-1.5 px-4 py-2 text-[11px] font-mono tracking-wider font-semibold rounded-full bg-accent/10 border border-accent/30 text-accent hover:bg-accent hover:text-ink transition-all duration-300"
             >
-              GET IN TOUCH <ArrowUpRight className="h-3 w-3" />
+              LET'S TALK <ArrowUpRight className="h-3 w-3" />
             </a>
           </div>
 
