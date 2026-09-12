@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Github, ExternalLink, CheckCircle2, ArrowRight } from 'lucide-react';
+import { X, Github, ExternalLink, ArrowRight } from 'lucide-react';
 import { Project } from '../types';
 import { CursorState } from './CustomCursor';
 
@@ -41,24 +41,25 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose, se
 
         {/* Modal Window */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.95, y: 20 }}
+          initial={{ opacity: 0, scale: 0.96, y: 20 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
-          exit={{ opacity: 0, scale: 0.95, y: 20 }}
-          transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-          className="relative w-full max-w-4xl bg-bg-surface border border-border-subtle rounded-3xl overflow-hidden shadow-2xl z-10 max-h-[90vh] flex flex-col"
+          exit={{ opacity: 0, scale: 0.96, y: 20 }}
+          transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+          className="relative w-full max-w-4xl bg-bg-surface border border-border-subtle overflow-hidden z-10 max-h-[90vh] flex flex-col"
         >
           {/* Header Bar */}
           <div className="flex items-center justify-between px-6 py-4 border-b border-border-subtle bg-bg-card">
             <div className="flex items-center gap-3">
-              <span className="text-xs font-mono text-accent-gold font-bold">{project.number}</span>
-              <span className="text-xs font-mono text-text-muted uppercase">PROJECT ARCHIVE CASE STUDY</span>
+              <span className="text-xs font-mono text-accent">{project.number}</span>
+              <span className="h-3 w-px bg-border-subtle" />
+              <span className="text-xs font-mono text-text-muted uppercase tracking-widest">Case Study</span>
             </div>
             <button
               onClick={onClose}
               onMouseEnter={() => setCursorState?.({ type: 'hover', label: 'CLOSE' })}
               onMouseLeave={() => setCursorState?.({ type: 'default' })}
               aria-label="Close modal"
-              className="p-2 rounded-full bg-bg-surface text-text-secondary hover:text-text-primary hover:bg-bg-primary transition-colors"
+              className="p-2 text-text-secondary hover:text-text-primary transition-colors"
             >
               <X className="h-5 w-5" />
             </button>
@@ -66,65 +67,73 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose, se
 
           {/* Modal Content Scroll Body */}
           <div className="overflow-y-auto p-6 sm:p-10 space-y-8">
-            {/* Image Preview */}
-            <div className="relative aspect-[16/9] rounded-2xl overflow-hidden bg-bg-card border border-border-subtle">
+
+            {/* Image Preview — no rounded corners, full bleed editorial */}
+            <div className="relative overflow-hidden bg-bg-card" style={{ aspectRatio: '16 / 9' }}>
               <img
                 src={project.image}
                 alt={project.title}
                 className="w-full h-full object-cover"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-bg-surface via-transparent to-transparent opacity-60" />
+              <div className="absolute inset-0 bg-gradient-to-t from-bg-surface/60 via-transparent to-transparent pointer-events-none" />
             </div>
 
-            {/* Title & Tagline */}
+            {/* Title & Tagline — consistent with portfolio font weight */}
             <div className="space-y-3">
-              <h2 className="text-3xl sm:text-4xl font-display font-extrabold text-text-primary tracking-tight">
+              <h2
+                className="font-display font-light text-text-primary tracking-tight"
+                style={{ fontSize: 'clamp(1.8rem, 4vw, 2.8rem)' }}
+              >
                 {project.title}
               </h2>
-              <p className="text-lg text-accent-gold font-display font-semibold">
+              <p className="text-xs font-mono text-accent uppercase tracking-wider">
                 {project.tagline}
               </p>
-              <p className="text-base text-text-secondary leading-relaxed font-light">
+              <p className="text-sm text-text-secondary leading-relaxed font-light border-l border-accent/30 pl-4 mt-2">
                 {project.description}
               </p>
             </div>
 
-            {/* Problem & Solution Grid */}
+            {/* Problem & Solution — editorial two-column, no arbitrary colors */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4 border-t border-border-subtle">
-              <div className="space-y-2 p-5 rounded-2xl bg-bg-card/70 border border-border-subtle">
-                <span className="text-xs font-mono text-accent-amber uppercase tracking-wider block">THE CHALLENGE</span>
-                <p className="text-sm text-text-secondary leading-relaxed">
+              <div className="space-y-2">
+                <span className="text-[10px] font-mono text-accent uppercase tracking-widest block">
+                  The Challenge
+                </span>
+                <p className="text-sm text-text-secondary leading-relaxed font-light">
                   {project.problem}
                 </p>
               </div>
-
-              <div className="space-y-2 p-5 rounded-2xl bg-bg-card/70 border border-border-subtle">
-                <span className="text-xs font-mono text-emerald-400 uppercase tracking-wider block">THE ARCHITECTURE</span>
-                <p className="text-sm text-text-secondary leading-relaxed">
+              <div className="space-y-2">
+                <span className="text-[10px] font-mono text-text-muted uppercase tracking-widest block">
+                  The Approach
+                </span>
+                <p className="text-sm text-text-secondary leading-relaxed font-light">
                   {project.solution}
                 </p>
               </div>
             </div>
 
-            {/* What Was Learned */}
-            <div className="p-6 rounded-2xl bg-accent-amber/5 border border-accent-amber/20 space-y-3">
-              <div className="flex items-center gap-2 text-accent-gold font-display font-bold text-sm">
-                <CheckCircle2 className="h-4 w-4" />
-                <span>KEY LEARNINGS & TAKEAWAYS</span>
-              </div>
+            {/* What Was Learned — clean editorial inset, no icon clutter */}
+            <div className="pt-4 border-t border-border-subtle space-y-2">
+              <span className="text-[10px] font-mono text-text-muted uppercase tracking-widest block">
+                Key Learnings
+              </span>
               <p className="text-sm text-text-primary leading-relaxed font-light">
                 {project.learned}
               </p>
             </div>
 
-            {/* Tech Stack Pills */}
+            {/* Tech Stack */}
             <div className="space-y-3">
-              <span className="text-xs font-mono text-text-muted uppercase tracking-widest block">TECHNOLOGY STACK</span>
+              <span className="text-[10px] font-mono text-text-muted uppercase tracking-widest block">
+                Technology Stack
+              </span>
               <div className="flex flex-wrap gap-2">
                 {project.techStack.map((tech) => (
                   <span
                     key={tech}
-                    className="px-3 py-1.5 rounded-lg bg-bg-card border border-border-subtle text-xs font-mono text-accent-gold"
+                    className="px-3 py-1 bg-bg-card border border-border-subtle text-[11px] font-mono text-text-secondary"
                   >
                     {tech}
                   </span>
@@ -140,9 +149,9 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose, se
                 rel="noreferrer"
                 onMouseEnter={() => setCursorState?.({ type: 'open', label: 'GITHUB' })}
                 onMouseLeave={() => setCursorState?.({ type: 'default' })}
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-bg-card border border-border-subtle text-text-primary font-display font-semibold text-sm hover:border-accent-amber hover:text-accent-gold transition-all"
+                className="inline-flex items-center gap-2 px-5 py-2.5 bg-bg-card border border-border-subtle text-text-primary font-mono text-xs hover:border-accent/50 hover:text-accent transition-all"
               >
-                <Github className="h-4 w-4" /> VIEW SOURCE CODE
+                <Github className="h-4 w-4" /> Source Code
               </a>
 
               {project.liveUrl && (
@@ -152,9 +161,9 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose, se
                   rel="noreferrer"
                   onMouseEnter={() => setCursorState?.({ type: 'open', label: 'DEMO' })}
                   onMouseLeave={() => setCursorState?.({ type: 'default' })}
-                  className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-accent-amber text-bg-primary font-display font-bold text-sm hover:bg-accent-gold transition-all"
+                  className="inline-flex items-center gap-2 px-5 py-2.5 bg-accent text-bg-primary font-mono text-xs hover:bg-accent-gold transition-all"
                 >
-                  <ExternalLink className="h-4 w-4" /> LIVE DEMO <ArrowRight className="h-4 w-4" />
+                  <ExternalLink className="h-4 w-4" /> Live Demo <ArrowRight className="h-3.5 w-3.5" />
                 </a>
               )}
             </div>
