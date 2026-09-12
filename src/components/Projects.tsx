@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowUpRight, Github, ExternalLink } from 'lucide-react';
 import { projects } from '../data/portfolioData';
 import { Project } from '../types';
@@ -12,135 +12,132 @@ interface ProjectsProps {
 
 export const Projects: React.FC<ProjectsProps> = ({ setCursorState }) => {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const [hoveredId, setHoveredId] = useState<string | null>(null);
 
   return (
     <section
       id="projects"
-      className="py-24 md:py-32 px-6 md:px-12 bg-bg-primary relative border-t border-border-subtle/60 overflow-hidden"
+      className="py-24 md:py-36 px-6 md:px-12 bg-charcoal relative border-t border-border-subtle overflow-hidden text-warmPaper"
     >
-      {/* Ambient */}
-      <div className="absolute top-1/2 left-0 w-[400px] h-[400px] bg-accent-amber/3 rounded-full blur-[130px] pointer-events-none -translate-y-1/2" />
-
       <div className="max-w-7xl mx-auto space-y-14 relative z-10">
 
-        {/* Section Header */}
+        {/* ── Section header ── */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-60px' }}
           transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-          className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-border-subtle/50 pb-8"
+          className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-border-subtle pb-10"
         >
-          <div className="space-y-2">
+          <div className="space-y-3">
             <div className="flex items-center gap-3">
-              <span className="h-px w-8 bg-accent-amber/60" />
-              <span className="text-xs font-mono tracking-widest text-accent-gold uppercase">
-                03 // FEATURED WORK
+              <span className="h-px w-8 bg-accent/60" />
+              <span className="text-xs font-mono tracking-widest text-accent uppercase">
+                04 // SELECTED WORK
               </span>
             </div>
-            <h2 className="text-4xl sm:text-6xl font-display font-extrabold text-text-primary tracking-tight">
-              SELECTED WORK
+            <h2
+              className="font-display font-light text-warmPaper tracking-tight"
+              style={{ fontSize: 'clamp(2.2rem, 5vw, 3.8rem)' }}
+            >
+              Featured Projects
             </h2>
           </div>
-          <div className="flex flex-col items-start md:items-end gap-2">
-            <p className="text-xs sm:text-sm font-mono text-text-secondary max-w-sm">
-              Software projects built while exploring algorithms, data pipelines, and machine learning models.
-            </p>
-            <span className="text-xs font-mono text-accent-gold border border-accent-amber/20 bg-accent-amber/5 px-3 py-1 rounded-full">
-              {projects.length} CASE STUDIES
-            </span>
-          </div>
+          <p className="text-xs font-mono text-stone max-w-xs leading-relaxed">
+            Software, algorithms, data pipelines, and machine learning engines — {projects.length} case studies.
+          </p>
         </motion.div>
 
-        {/* Projects List */}
-        <div className="space-y-6">
-          {projects.map((project, index) => (
-            <motion.div
-              key={project.id}
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-60px' }}
-              transition={{ duration: 0.6, delay: index * 0.07, ease: [0.22, 1, 0.36, 1] }}
-              whileHover={{ y: -3 }}
-              onClick={() => {
-                setSelectedProject(project);
-                setCursorState?.({ type: 'default' });
-              }}
-              onMouseEnter={() => setCursorState?.({ type: 'project' })}
-              onMouseLeave={() => setCursorState?.({ type: 'default' })}
-              className="group cursor-pointer rounded-2xl bg-bg-surface/80 border border-border-subtle/80 p-6 sm:p-8 hover:border-accent-amber/40 hover:bg-bg-card hover:shadow-2xl hover:shadow-accent-amber/5 transition-all duration-300 relative overflow-hidden"
-            >
-              {/* Hover glow line */}
-              <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-accent-amber/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+        {/* ── Project list — editorial rows ── */}
+        <div>
+          {projects.map((project, index) => {
+            const isHovered = hoveredId === project.id;
+            return (
+              <motion.div
+                key={project.id}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-60px' }}
+                transition={{ duration: 0.55, delay: index * 0.06, ease: [0.22, 1, 0.36, 1] }}
+                onClick={() => {
+                  setSelectedProject(project);
+                  setCursorState?.({ type: 'default' });
+                }}
+                onMouseEnter={() => {
+                  setHoveredId(project.id);
+                  setCursorState?.({ type: 'project' });
+                }}
+                onMouseLeave={() => {
+                  setHoveredId(null);
+                  setCursorState?.({ type: 'default' });
+                }}
+                className="group cursor-pointer grid grid-cols-12 gap-6 md:gap-10 py-8 border-b border-border-subtle hover:border-accent/20 transition-colors duration-300 items-start"
+              >
+                {/* Number — large structural element */}
+                <div className="col-span-2 md:col-span-1 pt-1">
+                  <span
+                    className="font-display font-light text-warmPaper/15 group-hover:text-accent/25 transition-colors duration-500 leading-none select-none"
+                    style={{ fontSize: 'clamp(2rem, 4vw, 3.5rem)' }}
+                  >
+                    {project.number}
+                  </span>
+                </div>
 
-              <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-
-                {/* Left Content */}
-                <div className="lg:col-span-7 space-y-4">
-                  <div className="flex items-center gap-3 flex-wrap">
-                    <span className="text-xs font-mono font-bold text-accent-gold px-3 py-1 rounded-full bg-accent-amber/10 border border-accent-amber/20">
-                      {project.number}
-                    </span>
-                    <span className="text-[10px] font-mono text-text-muted uppercase tracking-wider">CASE STUDY</span>
-                    {project.liveUrl && project.liveUrl !== project.githubUrl && (
-                      <span className="text-[10px] font-mono text-emerald-400 border border-emerald-800/40 bg-emerald-950/30 px-2 py-0.5 rounded-full">
-                        LIVE
-                      </span>
-                    )}
-                  </div>
-
-                  <div>
-                    <h3 className="text-xl sm:text-2xl md:text-3xl font-display font-bold text-text-primary group-hover:text-accent-gold transition-colors duration-300">
+                {/* Main content */}
+                <div className="col-span-10 md:col-span-7 space-y-4">
+                  {/* Title row */}
+                  <div className="space-y-1">
+                    <h3
+                      className="font-display font-light text-warmPaper group-hover:text-accent transition-colors duration-300 leading-tight"
+                      style={{ fontSize: 'clamp(1.5rem, 3vw, 2.2rem)' }}
+                    >
                       {project.title}
                     </h3>
-                    <p className="text-xs sm:text-sm font-mono text-accent-amber mt-1">
+                    <p className="font-mono text-[10px] text-accent/70 uppercase tracking-wider">
                       {project.tagline}
                     </p>
                   </div>
 
-                  <p className="text-sm text-text-secondary leading-relaxed font-light line-clamp-2">
+                  {/* Description */}
+                  <p className="text-sm text-warmGray/75 font-light leading-relaxed line-clamp-2">
                     {project.description}
                   </p>
 
-                  {/* Key takeaway */}
-                  <div className="p-3 rounded-xl bg-bg-card border border-border-subtle/70">
-                    <span className="text-[10px] font-mono text-text-muted uppercase tracking-wider block mb-1">KEY TAKEAWAY</span>
-                    <p className="text-xs text-text-secondary leading-relaxed line-clamp-2">{project.learned}</p>
-                  </div>
-
-                  {/* Tech stack */}
-                  <div className="flex flex-wrap gap-1.5">
+                  {/* Tech stack — flat mono tags, no pills */}
+                  <div className="flex flex-wrap gap-x-4 gap-y-1">
                     {project.techStack.map((tech) => (
-                      <span
-                        key={tech}
-                        className="px-2.5 py-1 rounded-md bg-bg-primary text-[10px] font-mono text-text-secondary border border-border-subtle/60 group-hover:border-border-subtle transition-colors"
-                      >
+                      <span key={tech} className="font-mono text-[10px] text-stone">
                         {tech}
                       </span>
                     ))}
                   </div>
 
                   {/* Actions */}
-                  <div className="flex items-center gap-4 pt-1">
+                  <div
+                    className="flex items-center gap-6 pt-1"
+                    onClick={e => e.stopPropagation()}
+                  >
                     <button
-                      onClick={(e) => { e.stopPropagation(); setSelectedProject(project); }}
+                      onClick={() => {
+                        setSelectedProject(project);
+                        setCursorState?.({ type: 'default' });
+                      }}
                       onMouseEnter={() => setCursorState?.({ type: 'open', label: 'CASE STUDY' })}
                       onMouseLeave={() => setCursorState?.({ type: 'project' })}
-                      className="inline-flex items-center gap-1.5 text-xs font-mono font-bold text-accent-gold hover:text-accent-warm transition-colors"
+                      className="inline-flex items-center gap-1.5 font-mono text-xs text-accent/80 hover:text-accent transition-colors"
                     >
-                      VIEW CASE STUDY <ArrowUpRight className="h-3.5 w-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                      Case Study <ArrowUpRight className="h-3.5 w-3.5" />
                     </button>
                     {project.githubUrl && (
                       <a
                         href={project.githubUrl}
                         target="_blank"
                         rel="noreferrer"
-                        onClick={(e) => e.stopPropagation()}
                         onMouseEnter={() => setCursorState?.({ type: 'open', label: 'GITHUB' })}
                         onMouseLeave={() => setCursorState?.({ type: 'project' })}
-                        className="p-2 rounded-lg bg-bg-card border border-border-subtle text-text-secondary hover:text-accent-gold hover:border-accent-amber/40 transition-all"
+                        className="font-mono text-xs text-stone hover:text-warmGray transition-colors flex items-center gap-1.5"
                       >
-                        <Github className="h-3.5 w-3.5" />
+                        <Github className="h-3.5 w-3.5" /> GitHub
                       </a>
                     )}
                     {project.liveUrl && project.liveUrl !== project.githubUrl && (
@@ -148,44 +145,51 @@ export const Projects: React.FC<ProjectsProps> = ({ setCursorState }) => {
                         href={project.liveUrl}
                         target="_blank"
                         rel="noreferrer"
-                        onClick={(e) => e.stopPropagation()}
-                        onMouseEnter={() => setCursorState?.({ type: 'open', label: 'LIVE DEMO' })}
+                        onMouseEnter={() => setCursorState?.({ type: 'open', label: 'LIVE' })}
                         onMouseLeave={() => setCursorState?.({ type: 'project' })}
-                        className="p-2 rounded-lg bg-bg-card border border-border-subtle text-text-secondary hover:text-emerald-400 hover:border-emerald-800/60 transition-all"
+                        className="font-mono text-xs text-stone hover:text-warmGray transition-colors flex items-center gap-1.5"
                       >
-                        <ExternalLink className="h-3.5 w-3.5" />
+                        <ExternalLink className="h-3.5 w-3.5" /> Live
                       </a>
                     )}
                   </div>
                 </div>
 
-                {/* Right Image */}
-                <div className="lg:col-span-5">
-                  <div className="relative aspect-[16/10] rounded-xl overflow-hidden bg-bg-card border border-border-subtle group-hover:border-accent-amber/25 transition-colors duration-300">
+                {/* Project image — right column, revealed on hover */}
+                <div className="hidden md:block md:col-span-4">
+                  <motion.div
+                    animate={{ opacity: isHovered ? 1 : 0.35, scale: isHovered ? 1 : 0.98 }}
+                    transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                    className="relative overflow-hidden bg-bg-card"
+                    style={{ aspectRatio: '16/9' }}
+                  >
                     <img
                       src={project.image}
                       alt={project.title}
-                      className="w-full h-full object-cover transform group-hover:scale-[1.04] transition-transform duration-600 ease-out"
+                      loading="lazy"
+                      className="w-full h-full object-cover"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-bg-primary/70 via-transparent to-transparent opacity-70 group-hover:opacity-40 transition-opacity duration-300" />
-                    {/* Project number overlay */}
-                    <div className="absolute bottom-3 right-3 font-display font-black text-5xl text-white/5 select-none pointer-events-none leading-none">
-                      {project.number}
-                    </div>
-                  </div>
+                    <div className="absolute inset-0 bg-gradient-to-t from-ink/60 via-transparent to-transparent pointer-events-none" />
+                  </motion.div>
                 </div>
-              </div>
-            </motion.div>
-          ))}
+              </motion.div>
+            );
+          })}
         </div>
+
       </div>
 
-      {/* Project Details Modal */}
-      <ProjectModal
-        project={selectedProject}
-        onClose={() => setSelectedProject(null)}
-        setCursorState={setCursorState}
-      />
+      {/* Project details modal */}
+      <AnimatePresence>
+        {selectedProject && (
+          <ProjectModal
+            key={selectedProject.id}
+            project={selectedProject}
+            onClose={() => setSelectedProject(null)}
+            setCursorState={setCursorState}
+          />
+        )}
+      </AnimatePresence>
     </section>
   );
 };
