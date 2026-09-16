@@ -1,4 +1,4 @@
-# 🎨 Mehedi Hasan - Portfolio 
+# 🎨 Mehedi Hasan - Portfolio  
 
 Premium dark-themed portfolio with cinematic animations. Built with React 18, TypeScript, and Framer Motion.
 
