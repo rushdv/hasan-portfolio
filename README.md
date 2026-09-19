@@ -11,7 +11,7 @@ Premium dark-themed portfolio with cinematic animations. Built with React 18, Ty
 
 ---
 
-## ✨ Features 
+## ✨ Features  
 
 - 🎬 **Cinematic animations** - Scroll-triggered reveals, parallax, custom cursor
 - 📱 **Fully responsive** - Mobile-first, touch-friendly, reduced motion support
