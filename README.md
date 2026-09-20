@@ -20,7 +20,7 @@ Premium dark-themed portfolio with cinematic animations. Built with React 18, Ty
 - 🔐 **Admin panel** - Password-protected travel entry management
 - ♿ **Accessible** - WCAG 2.1 AA compliant, keyboard navigation, screen reader tested
 
-### 📦 Sections
+### 📦 Sections 
 
 **Hero** • **About** • **Skills** • **Projects** • **Travel Journal** • **Photography** • **Education** • **Certificates** • **Learning Roadmap** • **Interests** • **Contact**
 
