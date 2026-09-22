@@ -25,15 +25,22 @@ export interface SkillCategory {
   }[];
 }
 
+export interface TravelCoordinates {
+  latitude: number;
+  longitude: number;
+}
+
 export interface TravelPlace {
   id: string;
   location: string;
   region: string;
-  coordinates: { x: number; y: number };
+  coordinates: TravelCoordinates;
   date: string;
-  photo: string;
-  /** Additional journey photos — cover photo is always first */
-  photos?: string[];
+  coverPhoto: string;
+  /** Legacy alias for backwards compatibility */
+  photo?: string;
+  /** Additional journey photos */
+  photos: string[];
   story: string;
   favouriteMoment: string;
 }

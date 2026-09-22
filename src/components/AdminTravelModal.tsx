@@ -29,8 +29,9 @@ export const AdminTravelModal: React.FC<AdminTravelModalProps> = ({
   const [photoFileName, setPhotoFileName] = useState('');
   const [story, setStory] = useState('');
   const [favouriteMoment, setFavouriteMoment] = useState('');
-  const [coordX, setCoordX] = useState(50);
-  const [coordY, setCoordY] = useState(50);
+  // Real geographic coordinates (defaults to Dhaka center)
+  const [latitude, setLatitude] = useState<number | string>(23.8103);
+  const [longitude, setLongitude] = useState<number | string>(90.4125);
   const [formSuccess, setFormSuccess] = useState(false);
 
   // Handle Raw Image File Upload
@@ -69,10 +70,15 @@ export const AdminTravelModal: React.FC<AdminTravelModalProps> = ({
       location,
       region,
       date: date || 'Recently Visited',
+      coverPhoto: photoDataUri,
       photo: photoDataUri,
+      photos: [photoDataUri],
       story,
       favouriteMoment: favouriteMoment || story.slice(0, 60) + '...',
-      coordinates: { x: Number(coordX), y: Number(coordY) },
+      coordinates: {
+        latitude: parseFloat(String(latitude)) || 23.8103,
+        longitude: parseFloat(String(longitude)) || 90.4125,
+      },
     };
 
     onAddPlace(newPlace);
@@ -262,33 +268,39 @@ export const AdminTravelModal: React.FC<AdminTravelModalProps> = ({
                   </div>
                 )}
 
-                {/* Map Coordinates Pickers */}
+                {/* Geographic Coordinates Input */}
                 <div className="p-3 rounded-xl bg-bg-card border border-border-subtle space-y-2">
                   <div className="flex items-center justify-between text-[11px] font-mono text-accent-gold">
-                    <span>MAP POSITION COORDINATES (% ON BANGLADESH MAP)</span>
-                    <span className="text-text-muted">X: {coordX}%, Y: {coordY}%</span>
+                    <span>GEOGRAPHIC COORDINATES (LATITUDE / LONGITUDE)</span>
+                    <span className="text-text-muted">Bangladesh bounds: ~20.5°-26.5°N, ~88.0°-92.5°E</span>
                   </div>
                   <div className="grid grid-cols-2 gap-3">
                     <div>
-                      <label className="text-[10px] font-mono text-text-muted">X (West → East)</label>
+                      <label className="text-[10px] font-mono text-text-muted block mb-1">
+                        Latitude (°N) *
+                      </label>
                       <input
-                        type="range"
-                        min="10"
-                        max="90"
-                        value={coordX}
-                        onChange={(e) => setCoordX(Number(e.target.value))}
-                        className="w-full accent-accent-amber cursor-pointer"
+                        type="number"
+                        step="0.0001"
+                        required
+                        value={latitude}
+                        onChange={(e) => setLatitude(e.target.value)}
+                        placeholder="23.8103"
+                        className="w-full px-3 py-2 rounded-lg bg-bg-surface border border-border-subtle text-text-primary text-xs font-mono focus:border-accent-amber focus:outline-none"
                       />
                     </div>
                     <div>
-                      <label className="text-[10px] font-mono text-text-muted">Y (North → South)</label>
+                      <label className="text-[10px] font-mono text-text-muted block mb-1">
+                        Longitude (°E) *
+                      </label>
                       <input
-                        type="range"
-                        min="10"
-                        max="90"
-                        value={coordY}
-                        onChange={(e) => setCoordY(Number(e.target.value))}
-                        className="w-full accent-accent-amber cursor-pointer"
+                        type="number"
+                        step="0.0001"
+                        required
+                        value={longitude}
+                        onChange={(e) => setLongitude(e.target.value)}
+                        placeholder="90.4125"
+                        className="w-full px-3 py-2 rounded-lg bg-bg-surface border border-border-subtle text-text-primary text-xs font-mono focus:border-accent-amber focus:outline-none"
                       />
                     </div>
                   </div>

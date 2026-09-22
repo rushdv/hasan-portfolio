@@ -1,271 +1,446 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { MapPin, Calendar, Heart, Plus } from 'lucide-react';
-import { TravelPlace } from '../types';
-import { CursorState } from './CustomCursor';
+import {
+  Map as MapLibreMap,
+  Marker,
+  NavigationControl,
+  AttributionControl,
+  type StyleSpecification,
+} from 'maplibre-gl';
+import { Compass, RotateCcw, Plus, AlertCircle, Satellite } from 'lucide-react';
+import type { TravelPlace } from '../types';
+import type { CursorState } from './CustomCursor';
 
 interface TravelMapProps {
   places: TravelPlace[];
+  selectedPlace: TravelPlace | null;
+  onSelectPlace: (place: TravelPlace | null) => void;
   setCursorState?: (state: CursorState) => void;
-  onSelectPlace?: (place: TravelPlace) => void;
   onOpenAdminModal?: () => void;
+  isAdminAuthenticated?: boolean;
 }
 
-/**
- * SVG Bangladesh outline — simplified vector path.
- * Coordinates are normalized to a 300×360 viewBox.
- * Pins use the same percentage-based coordinate system as TravelPlace.coordinates.
- */
-const BangladeshSVGPath = () => (
-  <svg
-    viewBox="0 0 300 360"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-    className="w-full h-full"
-    aria-hidden="true"
-  >
-    {/* Country fill */}
-    <path
-      d="
-        M 148 12
-        L 162 18 L 178 14 L 196 22 L 210 18 L 224 28 L 238 26 L 248 36
-        L 256 50 L 260 66 L 252 78 L 258 92 L 264 104 L 268 118
-        L 262 130 L 256 142 L 248 154 L 244 168 L 240 180
-        L 246 192 L 248 206 L 244 220 L 238 232 L 228 242
-        L 216 252 L 204 258 L 196 270 L 192 284 L 196 298
-        L 200 310 L 196 322 L 186 330 L 174 336 L 160 340
-        L 148 344 L 136 338 L 122 328 L 112 316 L 108 302
-        L 104 288 L 100 274 L 96 260 L 88 250 L 76 244
-        L 64 238 L 52 228 L 44 216 L 40 202 L 36 188
-        L 40 174 L 46 162 L 52 150 L 56 136 L 52 122
-        L 48 108 L 44 94 L 46 80 L 52 68 L 60 56
-        L 72 48 L 86 42 L 100 36 L 114 28 L 128 18
-        Z
-      "
-      fill="rgba(199,166,106,0.06)"
-      stroke="rgba(199,166,106,0.45)"
-      strokeWidth="1.5"
-      strokeLinejoin="round"
-    />
-    {/* Subtle internal river / terrain hint lines */}
-    <path
-      d="M 148 80 Q 156 120 148 160 Q 140 200 152 240 Q 160 270 148 300"
-      stroke="rgba(199,166,106,0.12)"
-      strokeWidth="1"
-      fill="none"
-      strokeDasharray="4 6"
-    />
-    <path
-      d="M 100 160 Q 130 170 160 165 Q 190 160 220 168"
-      stroke="rgba(199,166,106,0.10)"
-      strokeWidth="0.8"
-      fill="none"
-    />
-  </svg>
-);
+// Bangladesh geographic center and default overview bounds
+const BANGLADESH_CENTER: [number, number] = [90.3563, 23.6850]; // [lng, lat]
+
+// High-resolution Satellite Hybrid Style (Esri World Imagery + Roads + Boundaries & Places)
+// 100% universal browser compatibility, rock-solid reliability, zero key required
+const SATELLITE_HYBRID_STYLE: StyleSpecification = {
+  version: 8,
+  sources: {
+    'satellite-imagery': {
+      type: 'raster',
+      tiles: [
+        'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+      ],
+      tileSize: 256,
+      attribution: '© Esri, Maxar, Earthstar Geographics',
+    },
+    'satellite-roads': {
+      type: 'raster',
+      tiles: [
+        'https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Transportation/MapServer/tile/{z}/{y}/{x}',
+      ],
+      tileSize: 256,
+    },
+    'satellite-boundaries': {
+      type: 'raster',
+      tiles: [
+        'https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}',
+      ],
+      tileSize: 256,
+    },
+  },
+  layers: [
+    {
+      id: 'satellite-imagery-layer',
+      type: 'raster',
+      source: 'satellite-imagery',
+      minzoom: 0,
+      maxzoom: 19,
+    },
+    {
+      id: 'satellite-roads-layer',
+      type: 'raster',
+      source: 'satellite-roads',
+      minzoom: 0,
+      maxzoom: 19,
+    },
+    {
+      id: 'satellite-boundaries-layer',
+      type: 'raster',
+      source: 'satellite-boundaries',
+      minzoom: 0,
+      maxzoom: 19,
+    },
+  ],
+};
+
+const getSatelliteStyle = (): string | StyleSpecification => {
+  const maptilerKey = import.meta.env.VITE_MAPTILER_KEY;
+  const hasKey = Boolean(maptilerKey && maptilerKey.trim() !== '' && !maptilerKey.includes('your_'));
+  if (hasKey) {
+    return `https://api.maptiler.com/maps/hybrid/style.json?key=${maptilerKey}`;
+  }
+  return SATELLITE_HYBRID_STYLE;
+};
 
 export const TravelMap: React.FC<TravelMapProps> = ({
   places,
-  setCursorState,
+  selectedPlace,
   onSelectPlace,
+  setCursorState,
   onOpenAdminModal,
+  isAdminAuthenticated = false,
 }) => {
-  const [activePin, setActivePin] = useState<TravelPlace>(places[0] || {} as TravelPlace);
+  const mapContainerRef = useRef<HTMLDivElement>(null);
+  const mapInstanceRef = useRef<MapLibreMap | null>(null);
+  const markersRef = useRef<Marker[]>([]);
 
+  const [mapLoaded, setMapLoaded] = useState<boolean>(false);
+  const [mapError, setMapError] = useState<string | null>(null);
+
+  // Initialize MapLibre GL with Satellite Hybrid
   useEffect(() => {
-    if (places.length > 0 && !places.find(p => p.id === activePin.id)) {
-      setActivePin(places[0]);
-    }
-  }, [places, activePin.id]);
+    if (!mapContainerRef.current) return;
 
-  const handlePinClick = (place: TravelPlace) => {
-    setActivePin(place);
-    if (onSelectPlace) {
-      onSelectPlace(place);
+    if (mapInstanceRef.current) {
+      mapInstanceRef.current.remove();
+      mapInstanceRef.current = null;
     }
-  };
+
+    try {
+      const initialZoom = window.innerWidth < 768 ? 6.2 : 6.9;
+      const map = new MapLibreMap({
+        container: mapContainerRef.current,
+        style: getSatelliteStyle(),
+        center: BANGLADESH_CENTER, // Direct authentic Bangladesh coordinates
+        zoom: initialZoom,
+        pitch: 18,
+        bearing: -3,
+        attributionControl: false,
+        cooperativeGestures: false,
+      });
+
+      // Navigation controls
+      map.addControl(
+        new NavigationControl({
+          showCompass: true,
+          showZoom: true,
+          visualizePitch: true,
+        }),
+        'bottom-right'
+      );
+
+      // Attribution
+      map.addControl(
+        new AttributionControl({
+          compact: true,
+          customAttribution: '© Esri | © Maxar | © MapTiler',
+        }),
+        'bottom-right'
+      );
+
+      map.on('load', () => {
+        setMapLoaded(true);
+        setMapError(null);
+        map.resize();
+      });
+
+      // Safety timeout: Ensure loading spinner never locks the screen
+      const loadTimeout = setTimeout(() => {
+        setMapLoaded(true);
+        map.resize();
+      }, 2000);
+
+      // Fallback directly to Esri World Imagery if needed
+      map.on('error', (e: { error?: { message?: string; status?: number } }) => {
+        const errMsg = e?.error?.message || '';
+        const status = e?.error?.status;
+
+        if (status === 401 || status === 403 || status === 404 || errMsg.includes('401') || errMsg.includes('403') || errMsg.includes('404')) {
+          console.warn('Map style notice. Falling back to universal satellite imagery.');
+          try {
+            map.setStyle(SATELLITE_HYBRID_STYLE);
+          } catch {
+            setMapError('Failed to load satellite imagery.');
+          }
+        }
+      });
+
+      // ResizeObserver to ensure canvas matches exact dimensions
+      const resizeObserver = new ResizeObserver(() => {
+        if (mapInstanceRef.current) {
+          mapInstanceRef.current.resize();
+        }
+      });
+      resizeObserver.observe(mapContainerRef.current);
+
+      mapInstanceRef.current = map;
+
+      return () => {
+        clearTimeout(loadTimeout);
+        resizeObserver.disconnect();
+        markersRef.current.forEach((m) => m.remove());
+        markersRef.current = [];
+        if (mapInstanceRef.current) {
+          mapInstanceRef.current.remove();
+          mapInstanceRef.current = null;
+        }
+      };
+    } catch (err) {
+      setMapError('WebGL not supported or map failed to initialize.');
+    }
+  }, []);
+
+  // Update Featured Travel Destination Markers (5 Clean Golden Pins)
+  useEffect(() => {
+    const map = mapInstanceRef.current;
+    if (!map || !mapLoaded) return;
+
+    // Clear old markers
+    markersRef.current.forEach((m) => m.remove());
+    markersRef.current = [];
+
+    places.forEach((place) => {
+      const isSelected = selectedPlace?.id === place.id;
+
+      const markerEl = document.createElement('div');
+      markerEl.style.width = '28px';
+      markerEl.style.height = '28px';
+      markerEl.style.display = 'flex';
+      markerEl.style.alignItems = 'center';
+      markerEl.style.justifyContent = 'center';
+      markerEl.style.position = 'relative';
+      markerEl.style.cursor = 'pointer';
+      markerEl.style.overflow = 'visible';
+      markerEl.setAttribute('role', 'button');
+      markerEl.setAttribute('aria-label', `Destination: ${place.location}`);
+
+      markerEl.innerHTML = `
+        <div class="relative w-7 h-7 flex items-center justify-center select-none group">
+          ${
+            isSelected
+              ? `<div class="absolute -inset-3 rounded-full bg-accent-amber/40 animate-ping pointer-events-none"></div>
+                 <div class="absolute -inset-1.5 rounded-full border-2 border-accent-amber pointer-events-none"></div>`
+              : `<div class="absolute -inset-1.5 rounded-full bg-accent-amber/25 group-hover:bg-accent-amber/55 transition-all pointer-events-none"></div>`
+          }
+          <div class="relative flex items-center justify-center transition-transform duration-300 ${
+            isSelected
+              ? 'h-6 w-6 rounded-full bg-accent-amber text-bg-primary shadow-[0_0_24px_rgba(212,175,55,1)] scale-110'
+              : 'h-4 w-4 rounded-full bg-[#0A0A09] border-2 border-accent-amber group-hover:scale-125 shadow-lg'
+          }">
+            <div class="${
+              isSelected
+                ? 'h-2 w-2 rounded-full bg-bg-primary'
+                : 'h-1.5 w-1.5 rounded-full bg-accent-amber transition-colors group-hover:bg-accent-gold'
+            }"></div>
+          </div>
+
+          <!-- Clean Permanent Destination Badge -->
+          <div class="absolute top-full left-1/2 -translate-x-1/2 mt-1.5 pointer-events-none transition-all duration-200 z-20">
+            <div class="px-2.5 py-1 rounded-md backdrop-blur-md border font-mono text-[10px] tracking-wider whitespace-nowrap shadow-2xl flex items-center gap-1.5 transition-all ${
+              isSelected
+                ? 'bg-[#0A0A09] border-accent-amber text-accent-gold shadow-lg shadow-black/90 scale-105 font-semibold ring-1 ring-accent-amber/40'
+                : 'bg-[#0A0A09]/95 border-accent-amber/40 text-warmPaper shadow-md group-hover:border-accent-amber group-hover:text-accent-gold'
+            }">
+              <span class="inline-block h-1.5 w-1.5 rounded-full ${isSelected ? 'bg-accent-amber animate-pulse' : 'bg-accent-amber'}"></span>
+              <span class="font-medium">${place.location}</span>
+            </div>
+          </div>
+        </div>
+      `;
+
+      markerEl.addEventListener('mouseenter', () => {
+        setCursorState?.({ type: 'hover', label: place.location.toUpperCase() });
+      });
+
+      markerEl.addEventListener('mouseleave', () => {
+        setCursorState?.({ type: 'default' });
+      });
+
+      markerEl.addEventListener('click', (e) => {
+        e.stopPropagation();
+        handleSelectDestination(place);
+      });
+
+      const marker = new Marker({
+        element: markerEl,
+        anchor: 'center',
+      })
+        .setLngLat([place.coordinates.longitude, place.coordinates.latitude])
+        .addTo(map);
+
+      markersRef.current.push(marker);
+    });
+  }, [places, selectedPlace, mapLoaded, setCursorState]);
+
+  // Handle destination selection with smooth camera flight
+  const handleSelectDestination = useCallback(
+    (place: TravelPlace) => {
+      onSelectPlace(place);
+      const map = mapInstanceRef.current;
+      if (!map) return;
+
+      map.flyTo({
+        center: [place.coordinates.longitude, place.coordinates.latitude],
+        zoom: window.innerWidth < 768 ? 9.5 : 10.4,
+        pitch: 35,
+        bearing: 10,
+        speed: 1.1,
+        curve: 1.4,
+        essential: true,
+        easing: (t) => 1 - Math.pow(1 - t, 3),
+      });
+    },
+    [onSelectPlace]
+  );
+
+  // Reset camera to Bangladesh overview
+  const handleResetOverview = useCallback(() => {
+    onSelectPlace(null);
+    const map = mapInstanceRef.current;
+    if (!map) return;
+
+    map.flyTo({
+      center: BANGLADESH_CENTER,
+      zoom: window.innerWidth < 768 ? 6.2 : 6.9,
+      pitch: 18,
+      bearing: -3,
+      speed: 1.0,
+      curve: 1.35,
+      essential: true,
+      easing: (t) => 1 - Math.pow(1 - t, 3),
+    });
+  }, [onSelectPlace]);
 
   return (
-    <div className="relative overflow-hidden">
-      {/* Section label */}
-      <div className="flex items-center gap-3 mb-8">
-        <span className="h-px w-8 bg-accent/60" />
-        <span className="text-[10px] font-mono tracking-widest text-accent uppercase">
-          Journey Archive
-        </span>
-      </div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
-
-        {/* ── LEFT: SVG Bangladesh map with pins ── */}
-        <div className="lg:col-span-5 flex flex-col items-center">
-          <div
-            className="relative w-full max-w-sm"
-            style={{ aspectRatio: '300 / 360' }}
-          >
-            {/* SVG outline */}
-            <BangladeshSVGPath />
-
-            {/* Grid background — very subtle cartographic feel */}
-            <div
-              className="absolute inset-0 pointer-events-none"
-              style={{
-                backgroundImage:
-                  'linear-gradient(to right, rgba(199,166,106,0.04) 1px, transparent 1px), linear-gradient(to bottom, rgba(199,166,106,0.04) 1px, transparent 1px)',
-                backgroundSize: '30px 30px',
-              }}
-            />
-
-            {/* Location pins */}
-            {places.map((place) => {
-              const isActive = activePin?.id === place.id;
-              return (
-                <button
-                  key={place.id}
-                  onClick={() => handlePinClick(place)}
-                  onMouseEnter={() => setCursorState?.({ type: 'hover', label: place.location })}
-                  onMouseLeave={() => setCursorState?.({ type: 'default' })}
-                  style={{
-                    top: `${place.coordinates.y}%`,
-                    left: `${place.coordinates.x}%`,
-                  }}
-                  aria-label={`Select ${place.location}`}
-                  className="absolute -translate-x-1/2 -translate-y-1/2 group z-20"
-                >
-                  {/* Ping ring — active only */}
-                  {isActive && (
-                    <span className="absolute -inset-3 rounded-full border border-accent/40 animate-ping pointer-events-none" />
-                  )}
-
-                  {/* Pin dot */}
-                  <motion.div
-                    whileHover={{ scale: 1.25 }}
-                    transition={{ duration: 0.2 }}
-                    className={`relative flex items-center justify-center h-6 w-6 rounded-full transition-all duration-300 ${
-                      isActive
-                        ? 'bg-accent shadow-lg ring-2 ring-accent/30'
-                        : 'bg-bg-card border border-accent/60 hover:border-accent'
-                    }`}
-                  >
-                    <span
-                      className={`block rounded-full transition-all ${
-                        isActive ? 'h-2.5 w-2.5 bg-bg-primary' : 'h-2 w-2 bg-accent/70'
-                      }`}
-                    />
-                  </motion.div>
-
-                  {/* Tooltip */}
-                  <div
-                    className={`absolute left-1/2 -translate-x-1/2 bottom-full mb-2.5 px-2.5 py-1 bg-bg-surface border border-border-subtle text-[10px] font-mono whitespace-nowrap pointer-events-none transition-all duration-200 ${
-                      isActive
-                        ? 'opacity-100 text-accent border-accent/30'
-                        : 'opacity-0 group-hover:opacity-100 text-text-secondary'
-                    }`}
-                  >
-                    {place.location}
-                  </div>
-                </button>
-              );
-            })}
-
-            {/* Coordinate watermark — bottom right */}
-            <div className="absolute bottom-2 right-2 text-[9px] font-mono text-stone/50 pointer-events-none select-none">
-              23.6850° N · 90.3563° E
-            </div>
-          </div>
-
-          {/* Map footer */}
-          <div className="mt-4 flex items-center justify-between w-full max-w-sm text-[11px] font-mono text-stone">
-            <span className="flex items-center gap-1.5">
-              <span className="h-1.5 w-1.5 rounded-full bg-accent inline-block" />
-              {places.length} destination{places.length !== 1 ? 's' : ''} visited
-            </span>
-            {onOpenAdminModal && (
-              <button
-                onClick={onOpenAdminModal}
-                onMouseEnter={() => setCursorState?.({ type: 'hover', label: 'ADD' })}
-                onMouseLeave={() => setCursorState?.({ type: 'default' })}
-                className="flex items-center gap-1 text-accent/70 hover:text-accent transition-colors"
-              >
-                <Plus className="h-3 w-3" /> Add destination
-              </button>
-            )}
-          </div>
+    <div className="relative w-full h-full rounded-2xl md:rounded-3xl overflow-hidden border border-border-subtle bg-bg-surface shadow-2xl flex flex-col">
+      {/* ── Top Bar Overlay (Clean, Minimal, Editorial) ── */}
+      <div className="absolute top-0 left-0 right-0 z-10 flex flex-wrap items-center justify-between gap-3 p-4 bg-gradient-to-b from-bg-primary/95 via-bg-primary/60 to-transparent pointer-events-none">
+        {/* Left: Satellite Mode Indicator */}
+        <div className="pointer-events-auto flex items-center gap-2 px-3 py-1.5 rounded-full bg-bg-surface/90 backdrop-blur-md border border-border-subtle text-[11px] font-mono text-warmGray shadow-lg">
+          <Satellite className="h-3.5 w-3.5 text-accent-amber animate-pulse" />
+          <span className="text-text-primary font-medium">SATELLITE EXPEDITION</span>
+          <span className="text-stone">·</span>
+          <span className="text-accent-gold font-mono">{places.length} LOCATIONS</span>
         </div>
 
-        {/* ── RIGHT: Active destination journal entry ── */}
-        <div className="lg:col-span-7">
-          {activePin && activePin.location ? (
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={activePin.id}
-                initial={{ opacity: 0, y: 12 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -12 }}
-                transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-                className="space-y-6"
-              >
-                {/* Photo */}
-                <div
-                  className="relative overflow-hidden bg-bg-card"
-                  style={{ aspectRatio: '16 / 9' }}
-                  onMouseEnter={() => setCursorState?.({ type: 'explore', label: 'VIEW' })}
-                  onMouseLeave={() => setCursorState?.({ type: 'default' })}
-                >
-                  <img
-                    src={activePin.photo}
-                    alt={activePin.location}
-                    loading="lazy"
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 filter contrast-[1.03]"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-bg-primary/70 via-transparent to-transparent pointer-events-none" />
+        {/* Right: Overview & Admin Pin Controls */}
+        <div className="pointer-events-auto flex items-center gap-2">
+          {selectedPlace && (
+            <button
+              onClick={handleResetOverview}
+              onMouseEnter={() => setCursorState?.({ type: 'hover', label: 'RESET' })}
+              onMouseLeave={() => setCursorState?.({ type: 'default' })}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-bg-surface/90 backdrop-blur-md border border-accent-amber/40 hover:border-accent-amber text-[10px] font-mono text-accent-gold hover:text-warmPaper transition-all shadow-md"
+            >
+              <RotateCcw className="h-3 w-3" />
+              <span>Overview</span>
+            </button>
+          )}
 
-                  {/* Date badge */}
-                  <div className="absolute bottom-4 left-4 flex items-center gap-1.5 text-[11px] font-mono text-warmGray/80">
-                    <Calendar className="h-3 w-3 text-accent/70" />
-                    {activePin.date}
-                  </div>
-                </div>
-
-                {/* Location title */}
-                <div className="space-y-1">
-                  <span className="text-[10px] font-mono tracking-widest text-stone uppercase block">
-                    {activePin.region}
-                  </span>
-                  <h3
-                    className="font-display font-light text-warmPaper"
-                    style={{ fontSize: 'clamp(1.6rem, 3vw, 2.4rem)' }}
-                  >
-                    {activePin.location}
-                  </h3>
-                </div>
-
-                {/* Story */}
-                <p className="text-sm text-warmGray/80 leading-relaxed font-light border-l border-accent/30 pl-4">
-                  {activePin.story}
-                </p>
-
-                {/* Favourite moment */}
-                <div className="flex items-start gap-3 pt-2 border-t border-border-subtle">
-                  <Heart className="h-3.5 w-3.5 text-accent/70 shrink-0 mt-0.5" />
-                  <div>
-                    <span className="text-[9px] font-mono text-accent uppercase tracking-widest block mb-1">
-                      Favourite moment
-                    </span>
-                    <p className="text-xs text-warmGray italic font-serif leading-relaxed">
-                      "{activePin.favouriteMoment}"
-                    </p>
-                  </div>
-                </div>
-              </motion.div>
-            </AnimatePresence>
-          ) : (
-            <div className="py-16 text-center text-stone font-mono text-xs">
-              Select a location on the map.
-            </div>
+          {isAdminAuthenticated && onOpenAdminModal && (
+            <button
+              onClick={onOpenAdminModal}
+              onMouseEnter={() => setCursorState?.({ type: 'hover', label: 'PIN' })}
+              onMouseLeave={() => setCursorState?.({ type: 'default' })}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-accent-amber text-bg-primary hover:bg-accent-gold text-[10px] font-mono font-medium transition-all shadow-md"
+            >
+              <Plus className="h-3.5 w-3.5" />
+              <span>Pin</span>
+            </button>
           )}
         </div>
+      </div>
 
+      {/* ── Quick Location Jump Pills (Bottom) ── */}
+      <div className="absolute bottom-3 left-3 right-14 md:right-auto md:left-4 z-10 pointer-events-none">
+        <div className="pointer-events-auto flex items-center gap-1.5 overflow-x-auto no-scrollbar py-1 max-w-full md:max-w-md">
+          <button
+            onClick={handleResetOverview}
+            onMouseEnter={() => setCursorState?.({ type: 'hover' })}
+            onMouseLeave={() => setCursorState?.({ type: 'default' })}
+            className={`shrink-0 px-2.5 py-1 rounded-full text-[10px] font-mono tracking-wider uppercase transition-all duration-200 backdrop-blur-md border ${
+              !selectedPlace
+                ? 'bg-accent-amber text-bg-primary border-accent-amber font-semibold shadow-md shadow-accent-amber/20'
+                : 'bg-bg-surface/85 text-warmGray border-border-subtle hover:text-warmPaper hover:border-accent-amber/40'
+            }`}
+          >
+            All
+          </button>
+          {places.map((place) => {
+            const isSelected = selectedPlace?.id === place.id;
+            return (
+              <button
+                key={place.id}
+                onClick={() => handleSelectDestination(place)}
+                onMouseEnter={() => setCursorState?.({ type: 'hover', label: place.location })}
+                onMouseLeave={() => setCursorState?.({ type: 'default' })}
+                className={`shrink-0 px-2.5 py-1 rounded-full text-[10px] font-mono tracking-wider whitespace-nowrap transition-all duration-200 backdrop-blur-md border ${
+                  isSelected
+                    ? 'bg-accent-amber text-bg-primary border-accent-amber font-semibold shadow-md shadow-accent-amber/20'
+                    : 'bg-bg-surface/85 text-warmGray border-border-subtle hover:text-warmPaper hover:border-accent-amber/40'
+                }`}
+              >
+                {place.location}
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* ── WebGL Map Canvas Container ── */}
+      <div
+        ref={mapContainerRef}
+        className="w-full flex-1 min-h-[440px] md:min-h-[500px] lg:min-h-[560px] bg-[#0A0A09]"
+        style={{ outline: 'none' }}
+      />
+
+      {/* ── Map Loading State Overlay ── */}
+      <AnimatePresence>
+        {!mapLoaded && !mapError && (
+          <motion.div
+            initial={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.5 }}
+            className="absolute inset-0 z-20 flex flex-col items-center justify-center bg-bg-primary/95 space-y-4"
+          >
+            <div className="relative flex items-center justify-center">
+              <div className="h-10 w-10 rounded-full border-2 border-accent-amber/20 border-t-accent-amber animate-spin" />
+              <Compass className="h-4 w-4 text-accent-amber absolute" />
+            </div>
+            <div className="text-center space-y-1">
+              <p className="font-mono text-[11px] text-accent-gold tracking-widest uppercase">
+                CALIBRATING SATELLITE ENGINE...
+              </p>
+              <p className="font-mono text-[9px] text-stone">
+                Loading high-res aerial imagery &amp; coordinate markers
+              </p>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* ── Map Error State ── */}
+      {mapError && (
+        <div className="absolute inset-0 z-20 flex flex-col items-center justify-center p-6 bg-bg-primary/90 backdrop-blur-md text-center space-y-3">
+          <AlertCircle className="h-8 w-8 text-accent-warm" />
+          <h4 className="font-display text-lg text-text-primary">Interactive Map Notice</h4>
+          <p className="text-xs font-mono text-text-secondary max-w-md leading-relaxed">
+            {mapError}
+          </p>
+        </div>
+      )}
+
+      {/* ── Real Coordinates Telemetry (Cleanly placed at top-right or right edge) ── */}
+      <div className="absolute bottom-16 right-3 hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded bg-bg-primary/85 backdrop-blur-sm border border-border-subtle/50 text-[9px] font-mono text-stone/80 pointer-events-none select-none z-10">
+        <span className="text-accent-amber/70">GEO</span>
+        <span>
+          {selectedPlace
+            ? `${selectedPlace.coordinates.latitude.toFixed(4)}° N, ${selectedPlace.coordinates.longitude.toFixed(4)}° E`
+            : `23.6850° N, 90.3563° E`}
+        </span>
       </div>
     </div>
   );

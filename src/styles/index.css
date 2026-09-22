@@ -1,3 +1,4 @@
+@import 'maplibre-gl/dist/maplibre-gl.css';
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -90,3 +91,55 @@
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+
+/* MapLibre Attribution & Controls Dark Editorial Theme */
+.maplibregl-ctrl-attrib {
+  background-color: rgba(14, 14, 13, 0.85) !important;
+  color: #8c887f !important;
+  font-size: 10px !important;
+  font-family: var(--font-mono) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-radius: 6px !important;
+  backdrop-filter: blur(8px) !important;
+  padding: 3px 8px !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4) !important;
+}
+
+.maplibregl-ctrl-attrib a {
+  color: #c7a66a !important;
+  text-decoration: none !important;
+}
+
+.maplibregl-ctrl-attrib a:hover {
+  text-decoration: underline !important;
+}
+
+.maplibregl-ctrl-attrib-button {
+  display: none !important;
+}
+
+/* MapLibre navigation buttons */
+.maplibregl-ctrl-group {
+  background-color: rgba(20, 20, 19, 0.9) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 10px !important;
+  overflow: hidden !important;
+  backdrop-filter: blur(12px) !important;
+}
+
+.maplibregl-ctrl-group button {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+
+.maplibregl-ctrl-group button:last-child {
+  border-bottom: none !important;
+}
+
+.maplibregl-ctrl-group button .maplibregl-ctrl-icon {
+  filter: invert(85%) sepia(20%) hue-rotate(5deg) brightness(110%);
+}
+
+.maplibregl-ctrl-group button:hover {
+  background-color: rgba(199, 166, 106, 0.2) !important;
+}
+
