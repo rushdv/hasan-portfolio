@@ -16,23 +16,25 @@ export const Interests: React.FC<InterestsProps> = ({ setCursorState }) => {
       id="interests"
       className="py-24 md:py-36 px-6 md:px-12 bg-charcoal relative border-t border-border-subtle overflow-hidden text-warmPaper"
     >
-      {/* Background image — stronger opacity */}
+      {/* Background image — increased visibility and atmospheric depth */}
       <AnimatePresence mode="wait">
         <motion.div
           key={activeInterest.id}
-          initial={{ opacity: 0, scale: 1.06 }}
+          initial={{ opacity: 0, scale: 1.04 }}
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.6 }}
-          className="absolute inset-0 z-0 pointer-events-none"
+          className="absolute inset-0 z-0 pointer-events-none overflow-hidden"
         >
           <img
             src={activeInterest.bgImage}
             alt={activeInterest.title}
-            className="w-full h-full object-cover filter grayscale contrast-[1.1]"
+            className="w-full h-full object-cover object-center filter contrast-[1.08] brightness-[0.75] opacity-50 sm:opacity-60"
           />
-          <div className="absolute inset-0 bg-charcoal/85" />
-          <div className="absolute inset-0 bg-gradient-to-r from-charcoal via-charcoal/90 to-charcoal/60" />
+          {/* Left gradient ensures left-hand texts remain crisp and accessible */}
+          <div className="absolute inset-0 bg-gradient-to-r from-charcoal/95 via-charcoal/70 to-charcoal/25" />
+          {/* Top & bottom subtle section fade */}
+          <div className="absolute inset-0 bg-gradient-to-b from-charcoal/85 via-transparent to-charcoal/90" />
         </motion.div>
       </AnimatePresence>
 

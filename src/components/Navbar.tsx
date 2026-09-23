@@ -118,10 +118,17 @@ export const Navbar: React.FC<NavbarProps> = ({
 
           {/* Right controls */}
           <div className="hidden md:flex items-center gap-4">
-            {isAdminAuthenticated && (
+            {isAdminAuthenticated ? (
               <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-accent/10 border border-accent/30 text-accent text-xs font-mono">
                 <ShieldCheck className="h-3 w-3" />
-                <span>ADMIN</span>
+                <button
+                  type="button"
+                  onClick={() => window.dispatchEvent(new CustomEvent('open-admin-modal', { detail: { tab: 'messages' } }))}
+                  className="hover:text-accent-gold transition-colors font-semibold tracking-wider"
+                  title="Open Admin Dashboard & Visitor Messages"
+                >
+                  ADMIN
+                </button>
                 <button
                   onClick={onLogoutAdmin}
                   className="ml-1 text-stone hover:text-rose-400 transition-colors"
@@ -130,6 +137,14 @@ export const Navbar: React.FC<NavbarProps> = ({
                   <LogOut className="h-3 w-3" />
                 </button>
               </div>
+            ) : (
+              <button
+                onClick={onOpenAdminAuthModal}
+                className="p-1.5 rounded-full text-stone/60 hover:text-accent hover:bg-white/5 transition-colors"
+                title="Admin Authentication"
+              >
+                <Lock className="h-3.5 w-3.5" />
+              </button>
             )}
 
             <a
@@ -227,6 +242,18 @@ export const Navbar: React.FC<NavbarProps> = ({
               transition={{ delay: 0.4 }}
               className="space-y-3 pt-6 border-t border-border-subtle"
             >
+              {isAdminAuthenticated && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setMobileMenuOpen(false);
+                    window.dispatchEvent(new CustomEvent('open-admin-modal', { detail: { tab: 'messages' } }));
+                  }}
+                  className="w-full mb-3 flex items-center justify-center gap-2 py-3 rounded-xl bg-accent/15 border border-accent/30 text-accent font-mono text-xs font-bold"
+                >
+                  <ShieldCheck className="h-4 w-4" /> OPEN ADMIN INBOX & MAP
+                </button>
+              )}
               <span className="text-[10px] font-mono text-text-muted uppercase tracking-widest block">DIRECT CONTACT</span>
               <a href={`mailto:${personalInfo.socials.email}`} className="block font-mono text-sm text-accent-gold hover:text-accent-warm transition-colors">
                 {personalInfo.socials.email}

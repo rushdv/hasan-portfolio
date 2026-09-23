@@ -63,7 +63,7 @@ export const App: React.FC = () => {
         <Travel
           setCursorState={setCursorState}
           isAdminAuthenticated={isAdminAuthenticated}
-          onAuthenticateAdmin={() => setIsAdminAuthenticated(true)}
+          onAuthenticateAdmin={() => setIsAdminAuthModalOpen(true)}
         />
 
         {/* 06 — The Eye */}
@@ -85,7 +85,7 @@ export const App: React.FC = () => {
         <LearningRoadmap setCursorState={setCursorState} />
 
         {/* 09 — Contact */}
-        <Contact setCursorState={setCursorState} />
+        <Contact setCursorState={setCursorState} isAdminAuthenticated={isAdminAuthenticated} />
       </main>
 
       <Footer setCursorState={setCursorState} />

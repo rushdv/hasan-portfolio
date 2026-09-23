@@ -30,6 +30,8 @@ export interface TravelCoordinates {
   longitude: number;
 }
 
+export * from './travel';
+
 export interface TravelPlace {
   id: string;
   location: string;

@@ -177,7 +177,7 @@ export const Hero: React.FC<HeroProps> = ({ setCursorState }) => {
               >
                 <div className="overflow-hidden py-0.5">
                   <span
-                    className="inline-block font-light text-[#F4F4F0] drop-shadow-sm"
+                    className="inline-block font-light italic text-[#F4F4F0] drop-shadow-sm"
                     style={{ fontSize: 'clamp(3.6rem, 8.5vw, 7.5rem)' }}
                   >
                     <CharReveal text="Mehedi" delay={0.25} />
