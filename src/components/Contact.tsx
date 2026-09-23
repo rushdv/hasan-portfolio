@@ -148,10 +148,10 @@ export const Contact: React.FC<ContactProps> = ({ setCursorState, isAdminAuthent
   return (
     <section
       id="contact"
-      className="py-24 md:py-36 px-6 md:px-12 bg-ink relative border-t border-border-subtle overflow-hidden text-warmPaper"
+      className="py-20 md:py-36 px-5 sm:px-6 md:px-12 bg-ink relative border-t border-border-subtle overflow-hidden text-warmPaper"
     >
       {/* Ambient glow */}
-      <div className="absolute bottom-0 right-1/4 w-[500px] h-[400px] bg-accent/6 rounded-full blur-[150px] pointer-events-none" />
+      <div className="absolute bottom-0 right-1/4 w-[280px] sm:w-[500px] h-[220px] sm:h-[400px] bg-accent/6 rounded-full blur-[80px] sm:blur-[150px] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto relative z-10">
         <motion.div
@@ -377,7 +377,7 @@ export const Contact: React.FC<ContactProps> = ({ setCursorState, isAdminAuthent
                         onFocus={() => setCursorState({ type: 'hover' })}
                         onBlur={() => setCursorState({ type: 'default' })}
                         placeholder="Mehedi Hasan"
-                        className="w-full px-4 py-3 rounded-xl bg-bg-surface border border-border-subtle focus:border-accent/50 focus:outline-none text-sm text-warmPaper placeholder:text-stone font-mono transition-colors"
+                        className="w-full px-4 py-3 rounded-xl bg-bg-surface border border-border-subtle focus:border-accent/50 focus:outline-none text-base sm:text-sm text-warmPaper placeholder:text-stone font-mono transition-colors"
                       />
                     </div>
                     <div className="space-y-1.5">
@@ -391,7 +391,7 @@ export const Contact: React.FC<ContactProps> = ({ setCursorState, isAdminAuthent
                         onFocus={() => setCursorState({ type: 'hover' })}
                         onBlur={() => setCursorState({ type: 'default' })}
                         placeholder="your@email.com"
-                        className="w-full px-4 py-3 rounded-xl bg-bg-surface border border-border-subtle focus:border-accent/50 focus:outline-none text-sm text-warmPaper placeholder:text-stone font-mono transition-colors"
+                        className="w-full px-4 py-3 rounded-xl bg-bg-surface border border-border-subtle focus:border-accent/50 focus:outline-none text-base sm:text-sm text-warmPaper placeholder:text-stone font-mono transition-colors"
                       />
                     </div>
                   </div>
@@ -407,7 +407,7 @@ export const Contact: React.FC<ContactProps> = ({ setCursorState, isAdminAuthent
                       onFocus={() => setCursorState({ type: 'hover' })}
                       onBlur={() => setCursorState({ type: 'default' })}
                       placeholder="Tell me about your project, idea, or questions..."
-                      className="w-full px-4 py-3 rounded-xl bg-bg-surface border border-border-subtle focus:border-accent/50 focus:outline-none text-sm text-warmPaper placeholder:text-stone font-mono transition-colors resize-none"
+                      className="w-full px-4 py-3 rounded-xl bg-bg-surface border border-border-subtle focus:border-accent/50 focus:outline-none text-base sm:text-sm text-warmPaper placeholder:text-stone font-mono transition-colors resize-none"
                     />
                   </div>
 

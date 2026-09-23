@@ -16,12 +16,12 @@ export const TextBanner: React.FC<TextBannerProps> = ({ text, subtitle, accentTe
     <section className="py-20 md:py-28 px-6 overflow-hidden border-y border-border-subtle relative bg-[#0D0D0C] text-warmPaper">
       {/* Ambient warm gold glow in the center */}
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-        <div className="w-[600px] h-[250px] bg-accent/6 rounded-full blur-[140px]" />
+        <div className="w-[300px] sm:w-[600px] h-[180px] sm:h-[250px] bg-accent/6 rounded-full blur-[80px] sm:blur-[140px]" />
       </div>
 
-      {/* Subtle film grain texture */}
+      {/* Subtle film grain texture - hidden on mobile to boost FPS */}
       <div
-        className="absolute inset-0 opacity-[0.035] pointer-events-none"
+        className="absolute inset-0 opacity-[0.035] pointer-events-none hidden md:block"
         style={{
           backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`,
           backgroundSize: '180px',

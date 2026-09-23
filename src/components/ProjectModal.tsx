@@ -45,10 +45,10 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose, se
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.96, y: 20 }}
           transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-          className="relative w-full max-w-4xl bg-bg-surface border border-border-subtle overflow-hidden z-10 max-h-[90vh] flex flex-col"
+          className="relative w-full max-w-4xl bg-bg-surface border border-border-subtle overflow-hidden z-10 max-h-[90vh] flex flex-col rounded-2xl sm:rounded-3xl shadow-2xl"
         >
           {/* Header Bar */}
-          <div className="flex items-center justify-between px-6 py-4 border-b border-border-subtle bg-bg-card">
+          <div className="flex items-center justify-between px-5 sm:px-6 py-3.5 sm:py-4 border-b border-border-subtle bg-bg-card">
             <div className="flex items-center gap-3">
               <span className="text-xs font-mono text-accent">{project.number}</span>
               <span className="h-3 w-px bg-border-subtle" />
@@ -59,14 +59,14 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose, se
               onMouseEnter={() => setCursorState?.({ type: 'hover', label: 'CLOSE' })}
               onMouseLeave={() => setCursorState?.({ type: 'default' })}
               aria-label="Close modal"
-              className="p-2 text-text-secondary hover:text-text-primary transition-colors"
+              className="p-2 text-text-secondary hover:text-text-primary transition-colors min-h-[44px] min-w-[44px] flex items-center justify-center rounded-lg"
             >
               <X className="h-5 w-5" />
             </button>
           </div>
 
           {/* Modal Content Scroll Body */}
-          <div className="overflow-y-auto p-6 sm:p-10 space-y-8">
+          <div className="overflow-y-auto p-5 sm:p-8 md:p-10 space-y-6 sm:space-y-8">
 
             {/* Image Preview — no rounded corners, full bleed editorial */}
             <div className="relative overflow-hidden bg-bg-card" style={{ aspectRatio: '16 / 9' }}>

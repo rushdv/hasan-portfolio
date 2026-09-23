@@ -380,61 +380,6 @@ export const Travel: React.FC<TravelProps> = ({
             </div>
           </motion.div>
 
-          {/* ── Cinematic Travel Intro Showcase (featuring IMG_8768.PNG) ── */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="relative w-full rounded-3xl overflow-hidden border border-border-subtle bg-bg-card shadow-2xl group"
-          >
-            <div className="relative h-64 sm:h-72 md:h-80 w-full overflow-hidden">
-              <motion.img
-                src="/images/IMG_8768.PNG"
-                alt="Bangladesh Travel Expedition Landscape"
-                className="w-full h-full object-cover filter contrast-[1.05] brightness-90 group-hover:scale-105 transition-transform duration-1000 ease-out"
-              />
-
-              {/* Dark editorial gradient overlays */}
-              <div className="absolute inset-0 bg-gradient-to-t from-bg-primary via-bg-primary/50 to-transparent" />
-              <div className="absolute inset-0 bg-gradient-to-r from-bg-primary/80 via-transparent to-transparent" />
-
-              {/* Overlay Content */}
-              <div className="absolute inset-0 p-6 sm:p-8 md:p-10 flex flex-col justify-end z-10 space-y-2.5">
-                <div className="flex items-center gap-2 text-accent-gold font-mono text-[10px] tracking-[0.25em] uppercase font-semibold">
-                  <Compass className="h-3.5 w-3.5 text-accent-amber animate-spin" style={{ animationDuration: '14s' }} />
-                  <span>EXPEDITION ARCHIVE // BANGLADESH JOURNEYS</span>
-                </div>
-
-                <h3 className="font-display font-light text-warmPaper text-lg sm:text-2xl md:text-3xl max-w-2xl leading-tight">
-                  When the screen goes dark,{' '}
-                  <em className="not-italic italic text-accent font-serif">I explore the places in between.</em>
-                </h3>
-
-                <p className="font-mono text-xs text-warmGray max-w-xl leading-relaxed hidden sm:block font-light">
-                  Beyond algorithms, code, and terminal windows lie rivers, hill tracts, and the open sea. Mapping real coordinates across Bangladesh.
-                </p>
-
-                <div className="pt-2 flex flex-wrap items-center gap-3">
-                  <button
-                    type="button"
-                    onClick={() => setShowIntro(true)}
-                    onMouseEnter={() => setCursorState({ type: 'explore', label: 'FULLSCREEN' })}
-                    onMouseLeave={() => setCursorState({ type: 'default' })}
-                    className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-accent text-ink font-mono font-bold text-xs hover:bg-accent-gold transition-all shadow-lg shadow-accent/20"
-                  >
-                    <Compass className="h-3.5 w-3.5" />
-                    <span>WATCH FULLSCREEN INTRO</span>
-                    <ArrowRight className="h-3.5 w-3.5" />
-                  </button>
-                  <span className="text-[11px] font-mono text-stone hidden md:inline">
-                    Interactive Map &amp; Geo-Coordinates Below ↓
-                  </span>
-                </div>
-              </div>
-            </div>
-          </motion.div>
-
           {/* ── 50/50 Side-by-Side Main Grid (Matching Mockup) ── */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 xl:gap-8 items-stretch">
             {/* LEFT CARD: Real MapLibre Satellite Hybrid Map with Circular Photo Markers */}

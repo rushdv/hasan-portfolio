@@ -38,9 +38,9 @@ export const Photography: React.FC<PhotographyProps> = ({ setCursorState }) => {
   return (
     <section
       id="photography"
-      className="py-24 md:py-36 px-6 md:px-12 bg-ink relative border-t border-border-subtle overflow-hidden text-warmPaper"
+      className="py-20 md:py-36 px-5 sm:px-6 md:px-12 bg-ink relative border-t border-border-subtle overflow-hidden text-warmPaper"
     >
-      <div className="max-w-7xl mx-auto space-y-14">
+      <div className="max-w-7xl mx-auto space-y-10 sm:space-y-14">
 
         {/* Header */}
         <motion.div
@@ -48,25 +48,25 @@ export const Photography: React.FC<PhotographyProps> = ({ setCursorState }) => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-60px' }}
           transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-          className="flex flex-col md:flex-row md:items-end justify-between gap-8 border-b border-border-subtle pb-8"
+          className="flex flex-col md:flex-row md:items-end justify-between gap-6 sm:gap-8 border-b border-border-subtle pb-6 sm:pb-8"
         >
           <div className="space-y-3">
             <div className="flex items-center gap-3">
               <Camera className="h-4 w-4 text-accent" />
               <span className="text-xs font-mono tracking-widest text-accent uppercase">
-                06 // THE EYE & VISUAL ARCHIVE
+                06 // THE EYE &amp; VISUAL ARCHIVE
               </span>
             </div>
-            <h2 className="text-4xl sm:text-6xl font-display font-light text-warmPaper tracking-tight">
+            <h2 className="text-3xl sm:text-5xl lg:text-6xl font-display font-light text-warmPaper tracking-tight">
               PHOTOGRAPHIC ARCHIVE
             </h2>
-            <p className="text-sm font-mono text-warmGray max-w-lg">
+            <p className="text-xs sm:text-sm font-mono text-warmGray max-w-lg">
               A curated visual archive of places, light, atmospheric details, and quiet moments worth preserving.
             </p>
           </div>
 
           {/* Category filters */}
-          <div className="flex flex-wrap items-center gap-2">
+          <div className="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1 sm:pb-0 -mx-1 px-1 sm:mx-0 sm:px-0 sm:flex-wrap">
             {categories.map((cat) => {
               const count = getCategoryCount(cat);
               return (
@@ -77,7 +77,7 @@ export const Photography: React.FC<PhotographyProps> = ({ setCursorState }) => {
                   onClick={() => setActiveCategory(cat)}
                   onMouseEnter={() => setCursorState({ type: 'hover' })}
                   onMouseLeave={() => setCursorState({ type: 'default' })}
-                  className={`px-4 py-2 rounded-full text-xs font-mono transition-all duration-300 ${
+                  className={`px-3.5 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs font-mono transition-all duration-300 shrink-0 ${
                     activeCategory === cat
                       ? 'bg-accent text-ink font-bold shadow-lg shadow-accent/15'
                       : 'bg-bg-card border border-border-subtle text-warmGray hover:text-accent hover:border-accent/40'
@@ -91,7 +91,7 @@ export const Photography: React.FC<PhotographyProps> = ({ setCursorState }) => {
         </motion.div>
 
         {/* Masonry-style grid — columns approach */}
-        <motion.div layout className="columns-1 sm:columns-2 lg:columns-3 gap-6 space-y-6">
+        <motion.div layout className="columns-1 sm:columns-2 lg:columns-3 gap-5 sm:gap-6 space-y-5 sm:space-y-6">
           <AnimatePresence>
             {filteredPhotos.map((photo, idx) => {
               const heightClass = heightClasses[idx % heightClasses.length];
@@ -99,14 +99,14 @@ export const Photography: React.FC<PhotographyProps> = ({ setCursorState }) => {
                 <motion.div
                   key={photo.id}
                   layout
-                  initial={{ opacity: 0, scale: 0.94, filter: 'blur(8px)' }}
-                  animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
-                  exit={{ opacity: 0, scale: 0.94, filter: 'blur(8px)' }}
-                  transition={{ duration: 0.45, delay: idx * 0.04 }}
+                  initial={{ opacity: 0, scale: 0.96 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.96 }}
+                  transition={{ duration: 0.35, delay: idx * 0.03 }}
                   onClick={() => setActivePhotoIndex(idx)}
                   onMouseEnter={() => setCursorState({ type: 'explore', label: 'EXPAND' })}
                   onMouseLeave={() => setCursorState({ type: 'default' })}
-                  className="group relative cursor-pointer rounded-2xl overflow-hidden bg-bg-card border border-border-subtle hover:border-accent/50 transition-all duration-400 shadow-2xl break-inside-avoid mb-6 inline-block w-full"
+                  className="group relative cursor-pointer rounded-2xl overflow-hidden bg-bg-card border border-border-subtle hover:border-accent/50 transition-all duration-400 shadow-2xl break-inside-avoid mb-5 sm:mb-6 inline-block w-full"
                 >
                   <div className={`${heightClass} w-full overflow-hidden bg-ink`}>
                     <img
@@ -117,24 +117,24 @@ export const Photography: React.FC<PhotographyProps> = ({ setCursorState }) => {
                     />
                   </div>
 
-                  {/* Hover overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-ink/95 via-ink/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-between p-6">
+                  {/* Hover overlay & mobile friendly caption */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-ink/95 via-ink/30 to-transparent opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-between p-4 sm:p-6">
                     {/* Top row */}
                     <div className="flex justify-between items-start">
-                      <span className="px-3 py-1 rounded-full bg-ink/80 backdrop-blur-md border border-border-subtle text-[10px] font-mono text-accent uppercase tracking-widest">
+                      <span className="px-2.5 sm:px-3 py-1 rounded-full bg-ink/80 backdrop-blur-md border border-border-subtle text-[9px] sm:text-[10px] font-mono text-accent uppercase tracking-widest">
                         {photo.category}
                       </span>
-                      <span className="p-2 rounded-full bg-ink/80 border border-border-subtle text-accent backdrop-blur-md">
-                        <Maximize2 className="h-3.5 w-3.5" />
+                      <span className="p-1.5 sm:p-2 rounded-full bg-ink/80 border border-border-subtle text-accent backdrop-blur-md">
+                        <Maximize2 className="h-3 w-3 sm:h-3.5 sm:w-3.5" />
                       </span>
                     </div>
 
                     {/* Bottom info */}
-                    <div className="space-y-1.5 transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
-                      <h3 className="text-lg font-display font-light text-warmPaper leading-tight">
+                    <div className="space-y-1 sm:space-y-1.5 transform sm:translate-y-2 sm:group-hover:translate-y-0 transition-transform duration-300">
+                      <h3 className="text-base sm:text-lg font-display font-light text-warmPaper leading-tight">
                         {photo.title}
                       </h3>
-                      <div className="flex items-center gap-4 text-xs font-mono text-warmGray">
+                      <div className="flex items-center gap-3 sm:gap-4 text-[11px] sm:text-xs font-mono text-warmGray">
                         <span className="flex items-center gap-1.5"><MapPin className="h-3 w-3 text-accent" /> {photo.location}</span>
                         <span className="flex items-center gap-1.5"><Calendar className="h-3 w-3 text-accent" /> {photo.date}</span>
                       </div>

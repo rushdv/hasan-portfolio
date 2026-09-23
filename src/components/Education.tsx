@@ -12,12 +12,12 @@ export const Education: React.FC<EducationProps> = ({ setCursorState }) => {
   return (
     <section
       id="education"
-      className="py-24 md:py-36 px-6 md:px-12 bg-ink relative border-t border-border-subtle overflow-hidden text-warmPaper"
+      className="py-20 md:py-36 px-5 sm:px-6 md:px-12 bg-ink relative border-t border-border-subtle overflow-hidden text-warmPaper"
     >
       {/* Ambient */}
-      <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-accent/4 rounded-full blur-[130px] pointer-events-none" />
+      <div className="absolute top-0 right-0 w-[260px] sm:w-[400px] h-[260px] sm:h-[400px] bg-accent/4 rounded-full blur-[80px] sm:blur-[130px] pointer-events-none" />
 
-      <div className="max-w-7xl mx-auto space-y-14 relative z-10">
+      <div className="max-w-7xl mx-auto space-y-10 sm:space-y-14 relative z-10">
 
         {/* Header */}
         <motion.div
@@ -25,7 +25,7 @@ export const Education: React.FC<EducationProps> = ({ setCursorState }) => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-60px' }}
           transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-          className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-border-subtle pb-8"
+          className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-border-subtle pb-6 sm:pb-8"
         >
           <div className="space-y-2">
             <div className="flex items-center gap-3">
@@ -34,8 +34,8 @@ export const Education: React.FC<EducationProps> = ({ setCursorState }) => {
                 08 // THE PATH — ACADEMIC FOUNDATION
               </span>
             </div>
-            <h2 className="text-4xl sm:text-5xl font-display font-light text-warmPaper tracking-tight">
-              EDUCATION & STUDIES
+            <h2 className="text-3xl sm:text-5xl font-display font-light text-warmPaper tracking-tight">
+              EDUCATION &amp; STUDIES
             </h2>
           </div>
           <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-950/40 border border-emerald-800/40 self-start md:self-auto">

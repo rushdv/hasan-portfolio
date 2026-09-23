@@ -136,7 +136,7 @@ export const TravelMap: React.FC<TravelMapProps> = ({
         pitch: 18,
         bearing: -2,
         attributionControl: false,
-        cooperativeGestures: false,
+        cooperativeGestures: true,
       });
 
       const addBangladeshBoundary = () => {
@@ -369,14 +369,15 @@ export const TravelMap: React.FC<TravelMapProps> = ({
   }, [places, selectedPlace, mapLoaded, setCursorState, handleSelectDestination]);
 
   return (
-    <div className="relative w-full h-full rounded-3xl overflow-hidden border border-border-subtle bg-[#0A0A09] shadow-2xl flex flex-col min-h-[580px] lg:min-h-[660px]">
+    <div className="relative w-full h-full rounded-3xl overflow-hidden border border-border-subtle bg-[#0A0A09] shadow-2xl flex flex-col min-h-[380px] sm:min-h-[480px] lg:min-h-[660px]">
       {/* ── TOP OVERLAYS ── */}
-      <div className="absolute top-0 left-0 right-0 z-20 flex items-center justify-between gap-3 p-4 pointer-events-none">
+      <div className="absolute top-0 left-0 right-0 z-20 flex flex-wrap items-center justify-between gap-2 p-3 sm:p-4 pointer-events-none">
         {/* Left: Badge Pill & Optional Admin Add Pin */}
         <div className="flex items-center gap-2">
-          <div className="pointer-events-auto flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#0A0A09]/85 backdrop-blur-md border border-white/15 text-[10px] font-mono text-warmGray shadow-xl">
+          <div className="pointer-events-auto flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-full bg-[#0A0A09]/85 backdrop-blur-md border border-white/15 text-[9px] sm:text-[10px] font-mono text-warmGray shadow-xl">
             <span className="h-1.5 w-1.5 rounded-full bg-accent-amber animate-pulse" />
-            <span className="text-warmPaper font-medium tracking-wider uppercase">BANGLADESH EXPEDITIONS</span>
+            <span className="text-warmPaper font-medium tracking-wider uppercase hidden sm:inline">BANGLADESH EXPEDITIONS</span>
+            <span className="text-warmPaper font-medium tracking-wider uppercase sm:hidden">EXPEDITIONS</span>
             <span className="text-stone">|</span>
             <span className="text-accent-gold font-mono">{places.length} LOCATIONS</span>
           </div>
@@ -384,10 +385,10 @@ export const TravelMap: React.FC<TravelMapProps> = ({
           {isAdminAuthenticated && onOpenAdminModal && (
             <button
               onClick={onOpenAdminModal}
-              className="pointer-events-auto flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-accent-amber text-bg-primary text-[11px] font-mono font-bold hover:bg-accent-gold transition-all shadow-lg shadow-accent-amber/25"
+              className="pointer-events-auto flex items-center gap-1.5 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full bg-accent-amber text-bg-primary text-[10px] sm:text-[11px] font-mono font-bold hover:bg-accent-gold transition-all shadow-lg shadow-accent-amber/25"
               title="Add new destination pin & upload photos"
             >
-              <Plus className="h-3.5 w-3.5" />
+              <Plus className="h-3 w-3 sm:h-3.5 sm:w-3.5" />
               <span className="hidden sm:inline">Add Pin</span>
             </button>
           )}

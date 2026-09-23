@@ -67,7 +67,7 @@ export const TravelLocationPanel: React.FC<TravelLocationPanelProps> = ({
   };
 
   return (
-    <div className="h-full rounded-3xl bg-[#0c0c0e] border border-border-subtle p-5 sm:p-6 flex flex-col justify-between shadow-2xl relative backdrop-blur-md min-h-[580px] lg:min-h-[660px]">
+    <div className="h-full rounded-3xl bg-[#0c0c0e] border border-border-subtle p-4 sm:p-6 flex flex-col justify-between shadow-2xl relative backdrop-blur-md min-h-[440px] sm:min-h-[520px] lg:min-h-[660px]">
       <AnimatePresence mode="wait">
         {location ? (
           <motion.div

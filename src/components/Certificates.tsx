@@ -19,11 +19,11 @@ export const Certificates: React.FC<CertificatesProps> = ({ setCursorState }) =>
   return (
     <section
       id="certificates"
-      className="py-20 md:py-28 px-6 md:px-12 bg-ink relative border-t border-[#2C2B27] overflow-hidden text-warmPaper"
+      className="py-16 md:py-28 px-5 sm:px-6 md:px-12 bg-ink relative border-t border-[#2C2B27] overflow-hidden text-warmPaper"
     >
-      <div className="absolute bottom-0 left-1/4 w-[400px] h-[300px] bg-accent/4 rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute bottom-0 left-1/4 w-[260px] sm:w-[400px] h-[200px] sm:h-[300px] bg-accent/4 rounded-full blur-[80px] sm:blur-[120px] pointer-events-none" />
 
-      <div className="max-w-7xl mx-auto space-y-12 relative z-10">
+      <div className="max-w-7xl mx-auto space-y-10 sm:space-y-12 relative z-10">
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -39,7 +39,7 @@ export const Certificates: React.FC<CertificatesProps> = ({ setCursorState }) =>
             </span>
             <h2
               className="font-display font-light text-warmPaper"
-              style={{ fontSize: 'clamp(2rem, 4vw, 3rem)' }}
+              style={{ fontSize: 'clamp(1.75rem, 4vw, 3rem)' }}
             >
               Certificates &amp; Tracks
             </h2>

@@ -16,11 +16,11 @@ export const LearningRoadmap: React.FC<LearningRoadmapProps> = ({ setCursorState
   return (
     <section
       id="learning"
-      className="py-20 md:py-28 px-6 md:px-12 bg-charcoal relative border-t border-[#2C2B27] overflow-hidden text-warmPaper"
+      className="py-16 md:py-28 px-5 sm:px-6 md:px-12 bg-charcoal relative border-t border-[#2C2B27] overflow-hidden text-warmPaper"
     >
-      <div className="absolute top-1/2 right-0 w-[400px] h-[400px] bg-accent/4 rounded-full blur-[140px] pointer-events-none -translate-y-1/2" />
+      <div className="absolute top-1/2 right-0 w-[260px] sm:w-[400px] h-[260px] sm:h-[400px] bg-accent/4 rounded-full blur-[80px] sm:blur-[140px] pointer-events-none -translate-y-1/2" />
 
-      <div className="max-w-7xl mx-auto space-y-12 relative z-10">
+      <div className="max-w-7xl mx-auto space-y-10 sm:space-y-12 relative z-10">
 
         {/* Header */}
         <motion.div
@@ -28,7 +28,7 @@ export const LearningRoadmap: React.FC<LearningRoadmapProps> = ({ setCursorState
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-60px' }}
           transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-          className="flex flex-col md:flex-row md:items-end justify-between gap-8 border-b border-[#2C2B27] pb-8"
+          className="flex flex-col md:flex-row md:items-end justify-between gap-6 sm:gap-8 border-b border-[#2C2B27] pb-6 sm:pb-8"
         >
           <div className="space-y-2">
             <span className="h-px w-8 bg-accent/60 block" />
@@ -37,7 +37,7 @@ export const LearningRoadmap: React.FC<LearningRoadmapProps> = ({ setCursorState
             </span>
             <h2
               className="font-display font-light text-warmPaper"
-              style={{ fontSize: 'clamp(2rem, 4vw, 3rem)' }}
+              style={{ fontSize: 'clamp(1.75rem, 4vw, 3rem)' }}
             >
               Roadmap &amp; Growth
             </h2>
@@ -72,8 +72,8 @@ export const LearningRoadmap: React.FC<LearningRoadmapProps> = ({ setCursorState
         </motion.div>
 
         {/* Steps */}
-        <div className="relative pl-8 sm:pl-14 space-y-0">
-          <div className="absolute left-3 sm:left-5 top-2 bottom-2 w-px bg-gradient-to-b from-accent/60 via-accent/25 to-transparent" />
+        <div className="relative pl-7 sm:pl-14 space-y-0">
+          <div className="absolute left-2.5 sm:left-5 top-2 bottom-2 w-px bg-gradient-to-b from-accent/60 via-accent/25 to-transparent" />
 
           {roadmapSteps.map((step, idx) => {
             const isDone = step.status === 'completed';

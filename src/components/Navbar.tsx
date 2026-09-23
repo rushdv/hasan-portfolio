@@ -186,7 +186,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -16 }}
             transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
-            className="fixed inset-0 z-30 bg-bg-primary/96 backdrop-blur-2xl md:hidden flex flex-col pt-20 px-8 pb-10"
+            className="fixed inset-0 z-30 bg-bg-primary/96 backdrop-blur-2xl md:hidden flex flex-col pt-20 px-6 sm:px-8 pb-8 overflow-y-auto"
           >
             {/* Top meta row */}
             <div className="flex items-center justify-between mb-8 text-[10px] font-mono text-text-muted uppercase tracking-widest">

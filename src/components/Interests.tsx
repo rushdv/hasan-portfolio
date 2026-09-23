@@ -14,7 +14,7 @@ export const Interests: React.FC<InterestsProps> = ({ setCursorState }) => {
   return (
     <section
       id="interests"
-      className="py-24 md:py-36 px-6 md:px-12 bg-charcoal relative border-t border-border-subtle overflow-hidden text-warmPaper"
+      className="py-20 md:py-36 px-5 sm:px-6 md:px-12 bg-charcoal relative border-t border-border-subtle overflow-hidden text-warmPaper"
     >
       {/* Background image — increased visibility and atmospheric depth */}
       <AnimatePresence mode="wait">
@@ -39,10 +39,10 @@ export const Interests: React.FC<InterestsProps> = ({ setCursorState }) => {
       </AnimatePresence>
 
       <div className="max-w-7xl mx-auto relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
 
           {/* Left — Interest list */}
-          <div className="lg:col-span-7 space-y-12">
+          <div className="lg:col-span-7 space-y-8 sm:space-y-12">
 
             {/* Header */}
             <motion.div
@@ -58,7 +58,7 @@ export const Interests: React.FC<InterestsProps> = ({ setCursorState }) => {
                   07 // BEYOND THE SCREEN
                 </span>
               </div>
-              <h2 className="text-4xl sm:text-6xl font-display font-light text-warmPaper tracking-tight">
+              <h2 className="text-3xl sm:text-5xl lg:text-6xl font-display font-light text-warmPaper tracking-tight">
                 PERSONAL PASSIONS
               </h2>
             </motion.div>
@@ -74,6 +74,7 @@ export const Interests: React.FC<InterestsProps> = ({ setCursorState }) => {
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true, margin: '-30px' }}
                     transition={{ duration: 0.5, delay: index * 0.08 }}
+                    onClick={() => setActiveInterest(item)}
                     onMouseEnter={() => {
                       setActiveInterest(item);
                       setCursorState({ type: 'explore', label: item.title });
@@ -85,8 +86,8 @@ export const Interests: React.FC<InterestsProps> = ({ setCursorState }) => {
                         : 'bg-bg-surface/50 border-border-subtle hover:border-accent/25 hover:bg-bg-surface'
                     }`}
                   >
-                    <div className="p-5 sm:p-7 flex items-center justify-between gap-6">
-                      <div className="flex items-center gap-5 min-w-0">
+                    <div className="p-4 sm:p-7 flex items-center justify-between gap-4 sm:gap-6">
+                      <div className="flex items-center gap-3 sm:gap-5 min-w-0">
                         {/* Number */}
                         <span className={`text-xs font-mono font-bold shrink-0 transition-colors ${isActive ? 'text-accent' : 'text-stone'}`}>
                           {item.number}
@@ -94,14 +95,14 @@ export const Interests: React.FC<InterestsProps> = ({ setCursorState }) => {
                         {/* Active indicator dot */}
                         <span className={`shrink-0 h-1.5 w-1.5 rounded-full transition-all duration-300 ${isActive ? 'bg-accent scale-125' : 'bg-transparent'}`} />
                         {/* Title */}
-                        <h3 className={`text-2xl sm:text-3xl lg:text-4xl font-display font-light tracking-tight transition-all duration-300 truncate ${
+                        <h3 className={`text-xl sm:text-3xl lg:text-4xl font-display font-light tracking-tight transition-all duration-300 truncate ${
                           isActive ? 'text-accent translate-x-1' : 'text-warmPaper/70 group-hover:text-warmPaper'
                         }`}>
                           {item.title}
                         </h3>
                       </div>
 
-                      {/* Description visible when active */}
+                      {/* Description visible on desktop when active */}
                       <AnimatePresence>
                         {isActive && (
                           <motion.div
@@ -117,6 +118,22 @@ export const Interests: React.FC<InterestsProps> = ({ setCursorState }) => {
                         )}
                       </AnimatePresence>
                     </div>
+
+                    {/* Mobile inline expansion when active */}
+                    <AnimatePresence>
+                      {isActive && (
+                        <motion.div
+                          initial={{ opacity: 0, height: 0 }}
+                          animate={{ opacity: 1, height: 'auto' }}
+                          exit={{ opacity: 0, height: 0 }}
+                          transition={{ duration: 0.3 }}
+                          className="sm:hidden px-4 pb-4 pt-1 space-y-1.5 border-t border-border-subtle/40"
+                        >
+                          <span className="text-[10px] font-mono text-accent uppercase tracking-widest block">{item.subtitle}</span>
+                          <p className="text-xs text-warmGray leading-relaxed font-light">{item.description}</p>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
                   </motion.div>
                 );
               })}

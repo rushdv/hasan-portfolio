@@ -53,16 +53,16 @@ export const About: React.FC<AboutProps> = ({ setCursorState }) => {
   return (
     <section
       id="about"
-      className="py-24 md:py-36 px-6 md:px-12 bg-charcoal relative border-t border-border-subtle overflow-hidden text-warmPaper"
+      className="py-20 md:py-36 px-5 sm:px-6 md:px-12 bg-charcoal relative border-t border-border-subtle overflow-hidden text-warmPaper"
     >
       {/* Subtle ambient warm glow */}
-      <div className="absolute top-0 left-1/3 w-[500px] h-[300px] bg-accent/5 rounded-full blur-[140px] pointer-events-none" />
+      <div className="absolute top-0 left-1/3 w-[300px] sm:w-[500px] h-[200px] sm:h-[300px] bg-accent/5 rounded-full blur-[80px] sm:blur-[140px] pointer-events-none" />
 
-      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-16 items-start relative z-10">
+      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start relative z-10">
 
         {/* ── LEFT COLUMN ── */}
         <motion.div
-          className="lg:col-span-7 space-y-10"
+          className="lg:col-span-7 space-y-8 sm:space-y-10"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: '-80px' }}
@@ -72,14 +72,14 @@ export const About: React.FC<AboutProps> = ({ setCursorState }) => {
           <motion.div variants={itemVariants} className="flex items-center gap-3">
             <span className="h-px w-8 bg-accent/60" />
             <span className="text-xs font-mono tracking-widest text-accent uppercase">
-              02 // THE PERSON & PHILOSOPHY
+              02 // THE PERSON &amp; PHILOSOPHY
             </span>
           </motion.div>
 
           {/* Quote */}
           <motion.h2
             variants={itemVariants}
-            className="text-3xl sm:text-4xl md:text-5xl font-display font-light text-warmPaper leading-[1.15]"
+            className="text-2xl sm:text-4xl md:text-5xl font-display font-light text-warmPaper leading-[1.15]"
           >
             "I spend my days learning how computers think,{' '}
             <span className="text-accent font-serif italic font-normal">
@@ -90,7 +90,7 @@ export const About: React.FC<AboutProps> = ({ setCursorState }) => {
           {/* Bio paragraphs */}
           <motion.div
             variants={itemVariants}
-            className="space-y-5 text-base text-warmGray leading-relaxed font-light border-l border-accent/40 pl-6"
+            className="space-y-4 sm:space-y-5 text-sm sm:text-base text-warmGray leading-relaxed font-light border-l border-accent/40 pl-4 sm:pl-6"
           >
             {personalInfo.aboutText.map((paragraph, idx) => (
               <p key={idx}>{paragraph}</p>
@@ -100,7 +100,7 @@ export const About: React.FC<AboutProps> = ({ setCursorState }) => {
           {/* Stats row */}
           <motion.div
             variants={itemVariants}
-            className="grid grid-cols-3 gap-6 pt-6 border-t border-border-subtle"
+            className="grid grid-cols-3 gap-3 sm:gap-6 pt-6 border-t border-border-subtle"
           >
             {/* Stat 1 */}
             <div
@@ -109,20 +109,20 @@ export const About: React.FC<AboutProps> = ({ setCursorState }) => {
               onMouseEnter={() => setCursorState?.({ type: 'hover' })}
               onMouseLeave={() => setCursorState?.({ type: 'default' })}
             >
-              <span className="block text-3xl sm:text-4xl font-display font-light text-accent tabular-nums">
+              <span className="block text-2xl sm:text-4xl font-display font-light text-accent tabular-nums">
                 {projectCount}+
               </span>
-              <span className="text-[10px] font-mono text-stone uppercase tracking-widest">
+              <span className="text-[9px] sm:text-[10px] font-mono text-stone uppercase tracking-widest">
                 Projects Built
               </span>
             </div>
 
             {/* Stat 2 */}
             <div className="space-y-1">
-              <span className="block text-xl sm:text-2xl font-display font-light text-warmPaper">
+              <span className="block text-lg sm:text-2xl font-display font-light text-warmPaper leading-tight">
                 B.Sc. CSE
               </span>
-              <span className="text-[10px] font-mono text-stone uppercase tracking-widest">
+              <span className="text-[9px] sm:text-[10px] font-mono text-stone uppercase tracking-widest truncate block">
                 Northern Univ. BD
               </span>
             </div>
@@ -134,10 +134,10 @@ export const About: React.FC<AboutProps> = ({ setCursorState }) => {
               onMouseEnter={() => setCursorState?.({ type: 'hover' })}
               onMouseLeave={() => setCursorState?.({ type: 'default' })}
             >
-              <span className="block text-3xl sm:text-4xl font-display font-light text-warmPaper tabular-nums">
+              <span className="block text-2xl sm:text-4xl font-display font-light text-warmPaper tabular-nums">
                 {districtCount}+
               </span>
-              <span className="text-[10px] font-mono text-stone uppercase tracking-widest">
+              <span className="text-[9px] sm:text-[10px] font-mono text-stone uppercase tracking-widest">
                 Districts Explored
               </span>
             </div>

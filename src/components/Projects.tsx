@@ -17,9 +17,9 @@ export const Projects: React.FC<ProjectsProps> = ({ setCursorState }) => {
   return (
     <section
       id="projects"
-      className="py-24 md:py-36 px-6 md:px-12 bg-charcoal relative border-t border-border-subtle overflow-hidden text-warmPaper"
+      className="py-20 md:py-36 px-5 sm:px-6 md:px-12 bg-charcoal relative border-t border-border-subtle overflow-hidden text-warmPaper"
     >
-      <div className="max-w-7xl mx-auto space-y-14 relative z-10">
+      <div className="max-w-7xl mx-auto space-y-10 sm:space-y-14 relative z-10">
 
         {/* ── Section header ── */}
         <motion.div
@@ -27,7 +27,7 @@ export const Projects: React.FC<ProjectsProps> = ({ setCursorState }) => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-60px' }}
           transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-          className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-border-subtle pb-10"
+          className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-border-subtle pb-8 sm:pb-10"
         >
           <div className="space-y-3">
             <div className="flex items-center gap-3">
@@ -38,7 +38,7 @@ export const Projects: React.FC<ProjectsProps> = ({ setCursorState }) => {
             </div>
             <h2
               className="font-display font-light text-warmPaper tracking-tight"
-              style={{ fontSize: 'clamp(2.2rem, 5vw, 3.8rem)' }}
+              style={{ fontSize: 'clamp(2rem, 5vw, 3.8rem)' }}
             >
               Featured Projects
             </h2>
@@ -71,25 +71,25 @@ export const Projects: React.FC<ProjectsProps> = ({ setCursorState }) => {
                   setHoveredId(null);
                   setCursorState?.({ type: 'default' });
                 }}
-                className="group cursor-pointer grid grid-cols-12 gap-6 md:gap-10 py-8 border-b border-border-subtle hover:border-accent/20 transition-colors duration-300 items-start"
+                className="group cursor-pointer grid grid-cols-12 gap-4 sm:gap-6 md:gap-10 py-6 sm:py-8 border-b border-border-subtle hover:border-accent/20 transition-colors duration-300 items-start"
               >
                 {/* Number — large structural element */}
                 <div className="col-span-2 md:col-span-1 pt-1">
                   <span
                     className="font-display font-light text-warmPaper/15 group-hover:text-accent/25 transition-colors duration-500 leading-none select-none"
-                    style={{ fontSize: 'clamp(2rem, 4vw, 3.5rem)' }}
+                    style={{ fontSize: 'clamp(1.75rem, 4vw, 3.5rem)' }}
                   >
                     {project.number}
                   </span>
                 </div>
 
                 {/* Main content */}
-                <div className="col-span-10 md:col-span-7 space-y-4">
+                <div className="col-span-10 md:col-span-7 space-y-3.5 sm:space-y-4">
                   {/* Title row */}
                   <div className="space-y-1">
                     <h3
                       className="font-display font-light text-warmPaper group-hover:text-accent transition-colors duration-300 leading-tight"
-                      style={{ fontSize: 'clamp(1.5rem, 3vw, 2.2rem)' }}
+                      style={{ fontSize: 'clamp(1.35rem, 3vw, 2.2rem)' }}
                     >
                       {project.title}
                     </h3>
@@ -99,12 +99,25 @@ export const Projects: React.FC<ProjectsProps> = ({ setCursorState }) => {
                   </div>
 
                   {/* Description */}
-                  <p className="text-sm text-warmGray/75 font-light leading-relaxed line-clamp-2">
+                  <p className="text-xs sm:text-sm text-warmGray/75 font-light leading-relaxed line-clamp-2">
                     {project.description}
                   </p>
 
+                  {/* Mobile Preview Image */}
+                  <div className="md:hidden pt-1">
+                    <div className="relative overflow-hidden rounded-xl bg-bg-card border border-border-subtle aspect-[16/9]">
+                      <img
+                        src={project.image}
+                        alt={project.title}
+                        loading="lazy"
+                        className="w-full h-full object-cover"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-ink/60 via-transparent to-transparent pointer-events-none" />
+                    </div>
+                  </div>
+
                   {/* Tech stack — flat mono tags, no pills */}
-                  <div className="flex flex-wrap gap-x-4 gap-y-1">
+                  <div className="flex flex-wrap gap-x-3.5 gap-y-1">
                     {project.techStack.map((tech) => (
                       <span key={tech} className="font-mono text-[10px] text-stone">
                         {tech}
@@ -114,7 +127,7 @@ export const Projects: React.FC<ProjectsProps> = ({ setCursorState }) => {
 
                   {/* Actions */}
                   <div
-                    className="flex items-center gap-6 pt-1"
+                    className="flex flex-wrap items-center gap-4 sm:gap-6 pt-1"
                     onClick={e => e.stopPropagation()}
                   >
                     <button
@@ -124,7 +137,7 @@ export const Projects: React.FC<ProjectsProps> = ({ setCursorState }) => {
                       }}
                       onMouseEnter={() => setCursorState?.({ type: 'open', label: 'CASE STUDY' })}
                       onMouseLeave={() => setCursorState?.({ type: 'project' })}
-                      className="inline-flex items-center gap-1.5 font-mono text-xs text-accent/80 hover:text-accent transition-colors"
+                      className="inline-flex items-center gap-1.5 font-mono text-xs text-accent/80 hover:text-accent transition-colors py-1"
                     >
                       Case Study <ArrowUpRight className="h-3.5 w-3.5" />
                     </button>
@@ -135,7 +148,7 @@ export const Projects: React.FC<ProjectsProps> = ({ setCursorState }) => {
                         rel="noreferrer"
                         onMouseEnter={() => setCursorState?.({ type: 'open', label: 'GITHUB' })}
                         onMouseLeave={() => setCursorState?.({ type: 'project' })}
-                        className="font-mono text-xs text-stone hover:text-warmGray transition-colors flex items-center gap-1.5"
+                        className="font-mono text-xs text-stone hover:text-warmGray transition-colors flex items-center gap-1.5 py-1"
                       >
                         <Github className="h-3.5 w-3.5" /> GitHub
                       </a>
@@ -147,7 +160,7 @@ export const Projects: React.FC<ProjectsProps> = ({ setCursorState }) => {
                         rel="noreferrer"
                         onMouseEnter={() => setCursorState?.({ type: 'open', label: 'LIVE' })}
                         onMouseLeave={() => setCursorState?.({ type: 'project' })}
-                        className="font-mono text-xs text-stone hover:text-warmGray transition-colors flex items-center gap-1.5"
+                        className="font-mono text-xs text-stone hover:text-warmGray transition-colors flex items-center gap-1.5 py-1"
                       >
                         <ExternalLink className="h-3.5 w-3.5" /> Live
                       </a>

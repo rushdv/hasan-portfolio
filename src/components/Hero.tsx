@@ -135,8 +135,8 @@ export const Hero: React.FC<HeroProps> = ({ setCursorState }) => {
         ))}
 
         {/* Ambient Warm Golden Aura Glow behind content */}
-        <div className="absolute top-1/4 left-1/4 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-accent/10 rounded-full blur-[160px] z-10 pointer-events-none" />
-        <div className="absolute bottom-10 right-10 w-[550px] h-[550px] bg-accent/8 rounded-full blur-[180px] z-10 pointer-events-none" />
+        <div className="absolute top-1/4 left-1/4 -translate-x-1/2 -translate-y-1/2 w-[300px] sm:w-[600px] h-[300px] sm:h-[600px] bg-accent/10 rounded-full blur-[80px] sm:blur-[160px] z-10 pointer-events-none" />
+        <div className="absolute bottom-10 right-10 w-[260px] sm:w-[550px] h-[260px] sm:h-[550px] bg-accent/8 rounded-full blur-[90px] sm:blur-[180px] z-10 pointer-events-none" />
 
         {/* Base dark backdrop for text contrast - lightened so background images shine through */}
         <div className="absolute inset-0 z-10 bg-[#070709]/20 pointer-events-none" />
@@ -147,9 +147,9 @@ export const Hero: React.FC<HeroProps> = ({ setCursorState }) => {
         {/* Top and Bottom soft vignette fades */}
         <div className="absolute inset-0 z-10 bg-gradient-to-t from-[#070709]/80 via-transparent to-[#070709]/30 pointer-events-none" />
 
-        {/* Dynamic Micro Noise Grain Overlay */}
+        {/* Dynamic Micro Noise Grain Overlay - hidden on mobile to eliminate GPU rasterization lag */}
         <div
-          className="absolute inset-0 z-10 opacity-[0.035] pointer-events-none mix-blend-overlay"
+          className="absolute inset-0 z-10 opacity-[0.035] pointer-events-none mix-blend-overlay hidden md:block"
           style={{
             backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`,
             backgroundSize: '180px',
@@ -162,12 +162,12 @@ export const Hero: React.FC<HeroProps> = ({ setCursorState }) => {
       ═══════════════════════════════════════════════════════════ */}
       <motion.div
         style={{ y: contentY, opacity: opacityFade }}
-        className="relative z-10 flex-1 flex items-center max-w-7xl mx-auto w-full px-6 md:px-12 pt-32 pb-16"
+        className="relative z-10 flex-1 flex items-center max-w-7xl mx-auto w-full px-5 sm:px-6 md:px-12 pt-28 sm:pt-32 pb-12 sm:pb-16"
       >
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 w-full items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-8 w-full items-center">
 
           {/* ── LEFT COLUMN: IDENTITY & HERO HEADLINE ───────────── */}
-          <div className="lg:col-span-7 flex flex-col justify-center items-start gap-6">
+          <div className="lg:col-span-7 flex flex-col justify-center items-start gap-5 sm:gap-6">
 
             {/* 1. MAIN NAME — Editorial Statement */}
             <div className="space-y-1">
@@ -178,7 +178,7 @@ export const Hero: React.FC<HeroProps> = ({ setCursorState }) => {
                 <div className="overflow-hidden py-0.5">
                   <span
                     className="inline-block font-light italic text-[#F4F4F0] drop-shadow-sm"
-                    style={{ fontSize: 'clamp(3.6rem, 8.5vw, 7.5rem)' }}
+                    style={{ fontSize: 'clamp(3.2rem, 8.5vw, 7.5rem)' }}
                   >
                     <CharReveal text="Mehedi" delay={0.25} />
                   </span>
@@ -186,14 +186,14 @@ export const Hero: React.FC<HeroProps> = ({ setCursorState }) => {
                 <div className="overflow-hidden py-0.5">
                   <span
                     className="inline-block font-serif italic font-normal text-accent drop-shadow-md"
-                    style={{ fontSize: 'clamp(3.6rem, 8.5vw, 7.5rem)' }}
+                    style={{ fontSize: 'clamp(3.2rem, 8.5vw, 7.5rem)' }}
                   >
                     <CharReveal text="Hasan" delay={0.50} />
                   </span>
                 </div>
               </h1>
 
-              {/* 2. Sub-Descriptor Roles / Positioning */}
+            {/* 2. Sub-Descriptor Roles / Positioning */}
               <motion.div
                 initial={{ opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -211,13 +211,14 @@ export const Hero: React.FC<HeroProps> = ({ setCursorState }) => {
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.8, delay: 0.9, ease: [0.22, 1, 0.36, 1] }}
-              className="lg:hidden relative w-full my-4"
+              className="lg:hidden relative w-full max-w-sm mx-auto my-2"
             >
               <div className="relative overflow-hidden rounded-tl-[2.5rem] rounded-br-[2.5rem] rounded-tr-xl rounded-bl-xl border border-white/20 bg-gradient-to-b from-white/10 via-white/5 to-black/60 backdrop-blur-xl p-2.5 shadow-2xl">
-                <div className="relative h-72 w-full overflow-hidden rounded-tl-[2rem] rounded-br-[2rem] rounded-tr-lg rounded-bl-lg">
+                <div className="relative h-64 sm:h-72 w-full overflow-hidden rounded-tl-[2rem] rounded-br-[2rem] rounded-tr-lg rounded-bl-lg">
                   <img
                     src="/images/mehedi_hasan.jpg"
                     alt="Mehedi Hasan"
+                    loading="eager"
                     className="w-full h-full object-cover object-top filter contrast-[1.04]"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#070709] via-transparent to-transparent opacity-80" />
@@ -240,14 +241,14 @@ export const Hero: React.FC<HeroProps> = ({ setCursorState }) => {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 1.15, duration: 0.5 }}
-              className="flex flex-wrap items-center gap-4 pt-3"
+              className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4 pt-2 w-full sm:w-auto"
             >
               {/* Primary CTA - Luxury Solid Gold */}
               <a
                 href="#projects"
                 onMouseEnter={() => setCursorState({ type: 'project' })}
                 onMouseLeave={() => setCursorState({ type: 'default' })}
-                className="group relative inline-flex items-center gap-3 px-8 py-3.5 bg-accent text-[#0A0A09] rounded-full font-mono font-bold text-xs tracking-widest hover:bg-accent-gold transition-all duration-300 shadow-[0_0_30px_rgba(199,166,106,0.25)] hover:shadow-[0_0_45px_rgba(199,166,106,0.5)] transform hover:-translate-y-0.5 overflow-hidden"
+                className="group relative inline-flex items-center justify-center gap-3 px-7 sm:px-8 py-3.5 bg-accent text-[#0A0A09] rounded-full font-mono font-bold text-xs tracking-widest hover:bg-accent-gold transition-all duration-300 shadow-[0_0_30px_rgba(199,166,106,0.25)] hover:shadow-[0_0_45px_rgba(199,166,106,0.5)] transform hover:-translate-y-0.5 overflow-hidden"
               >
                 {/* Subtle light shimmer sweep */}
                 <span className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-out" />
@@ -260,7 +261,7 @@ export const Hero: React.FC<HeroProps> = ({ setCursorState }) => {
                 href="#contact"
                 onMouseEnter={() => setCursorState({ type: 'hover', label: 'TALK' })}
                 onMouseLeave={() => setCursorState({ type: 'default' })}
-                className="inline-flex items-center gap-2.5 px-7 py-3.5 rounded-full border border-white/20 bg-white/[0.04] backdrop-blur-md text-[#F4F4F0] font-mono font-medium text-xs tracking-widest hover:border-accent/60 hover:text-accent hover:bg-accent/10 transition-all duration-300 transform hover:-translate-y-0.5"
+                className="inline-flex items-center justify-center gap-2.5 px-6 sm:px-7 py-3.5 rounded-full border border-white/20 bg-white/[0.04] backdrop-blur-md text-[#F4F4F0] font-mono font-medium text-xs tracking-widest hover:border-accent/60 hover:text-accent hover:bg-accent/10 transition-all duration-300 transform hover:-translate-y-0.5"
               >
                 <span>CONTACT ME</span>
                 <ExternalLink className="w-3.5 h-3.5 opacity-70 group-hover:opacity-100" />

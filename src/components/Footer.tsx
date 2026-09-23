@@ -33,8 +33,8 @@ export const Footer: React.FC<FooterProps> = ({ setCursorState }) => {
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[1px] bg-gradient-to-r from-transparent via-accent/20 to-transparent" />
 
       {/* Main footer content */}
-      <div className="max-w-7xl mx-auto px-6 md:px-12 py-14">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 pb-12 border-b border-border-subtle">
+      <div className="max-w-7xl mx-auto px-5 sm:px-6 md:px-12 py-10 sm:py-14">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 sm:gap-12 pb-8 sm:pb-12 border-b border-border-subtle">
 
           {/* Brand column */}
           <div className="space-y-4">
