@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { motion } from 'framer-motion';
-import { Plus, Lock, Compass, ArrowRight } from 'lucide-react';
+import { Plus, Lock } from 'lucide-react';
 import { travelLocations as defaultLocations } from '../data/travelLocations';
 import { TravelLocation, TravelPhoto, TravelLightboxState } from '../types/travel';
 import { TravelMap } from './TravelMap';
@@ -202,7 +202,7 @@ export const Travel: React.FC<TravelProps> = ({
           setShowIntro(true);
         }
       },
-      { threshold: 0.15 }
+      { threshold: 0.08 }
     );
 
     if (sectionRef.current) observer.observe(sectionRef.current);
@@ -346,19 +346,7 @@ export const Travel: React.FC<TravelProps> = ({
               </p>
             </div>
 
-            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 shrink-0 self-start md:self-end">
-              <button
-                type="button"
-                onClick={() => setShowIntro(true)}
-                onMouseEnter={() => setCursorState({ type: 'explore', label: 'INTRO' })}
-                onMouseLeave={() => setCursorState({ type: 'default' })}
-                className="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl border border-accent/40 bg-accent/10 hover:bg-accent/20 text-accent text-xs font-mono font-semibold transition-all shadow-sm"
-                title="Play Fullscreen Cinematic Intro"
-              >
-                <Compass className="h-3.5 w-3.5 text-accent animate-spin" style={{ animationDuration: '14s' }} />
-                <span>PLAY INTRO</span>
-              </button>
-
+            <div className="flex items-center gap-3 shrink-0 self-start md:self-end">
               {isAdminAuthenticated ? (
                 <button
                   onClick={handleOpenAddModal}
