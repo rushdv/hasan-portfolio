@@ -199,7 +199,7 @@ personalInterests // PersonalInterest[] — 4 interest panels
 - **Name:** Mehedi Hasan
 - **University:** Northern University Bangladesh (B.Sc. CSE, 2023–present)
 - **Location:** Dhaka, Bangladesh
-- **Email:** mehedi.hasan.dev@gmail.com
+- **Email:** mehedih.academic@gmail.com
 - **GitHub:** https://github.com/mehedihasan-ml
 - **AI/ML stack:** Python → NumPy/Pandas → SciKit-Learn → PyTorch (roadmap)
 - **Travels:** Cox's Bazar, Sylhet, Dhaka, Bandarban, Sreemangal

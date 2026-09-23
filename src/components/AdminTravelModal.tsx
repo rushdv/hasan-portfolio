@@ -21,6 +21,7 @@ import {
   Search,
   Reply,
 } from 'lucide-react';
+import { personalInfo } from '../data/portfolioData';
 import { TravelPlace } from '../types';
 import { TravelLocation } from '../types/travel';
 import {
@@ -701,7 +702,7 @@ export const AdminTravelModal: React.FC<AdminTravelModalProps> = ({
                 <p className="text-xs font-mono text-text-muted max-w-sm mx-auto">
                   {messageFilter
                     ? 'Try clearing the search filter.'
-                    : 'Any message submitted through the Contact form will appear here and route to mehedi.hasan.dev@gmail.com.'}
+                    : `Any message submitted through the Contact form will appear here and route to ${personalInfo.socials.email}.`}
                 </p>
               </div>
             ) : (
@@ -773,7 +774,7 @@ export const AdminTravelModal: React.FC<AdminTravelModalProps> = ({
             <div className="p-3 rounded-xl bg-bg-card/70 border border-border-subtle text-[11px] font-mono text-text-muted flex items-center gap-2">
               <Mail className="h-3.5 w-3.5 text-accent-gold shrink-0" />
               <span>
-                All inquiries are also forwarded to <strong className="text-text-primary">mehedi.hasan.dev@gmail.com</strong>.
+                All inquiries are also forwarded to <strong className="text-text-primary">{personalInfo.socials.email}</strong>.
               </span>
             </div>
           </div>

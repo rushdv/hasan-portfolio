@@ -30,7 +30,7 @@ export const personalInfo = {
     instagram: "https://www.instagram.com/camphoreee?utm_source=qr",
     linkedin: "https://www.linkedin.com/in/im-mehedi-hasan?utm_source=share_via&utm_content=profile&utm_medium=member_ios",
     github: "https://github.com/mehedihasan-ml",
-    email: "mehedi.hasan.dev@gmail.com"
+    email: "mehedih.academic@gmail.com"
   } as SocialLinks
 };
 

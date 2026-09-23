@@ -149,7 +149,7 @@ npm run build && netlify deploy --prod --dir=dist
 **Mehedi Hasan**  
 CSE Student @ Northern University Bangladesh, Dhaka
 
-📧 mehedi.hasan.dev@gmail.com  
+📧 mehedih.academic@gmail.com  
 💻 [@mehedihasan-ml](https://github.com/mehedihasan-ml)
 
 ---
