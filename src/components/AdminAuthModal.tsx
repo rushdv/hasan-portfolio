@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Lock, X, AlertCircle, ShieldCheck } from 'lucide-react';
+import { Lock, X, AlertCircle, ShieldCheck, Eye, EyeOff } from 'lucide-react';
 
 interface AdminAuthModalProps {
   isOpen: boolean;
@@ -14,16 +14,24 @@ export const AdminAuthModal: React.FC<AdminAuthModalProps> = ({
   onLoginSuccess,
 }) => {
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
 
   if (!isOpen) return null;
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const adminPassword = import.meta.env.VITE_ADMIN_PASSWORD;
-    if (adminPassword && password === adminPassword) {
+    const configuredPassword = (import.meta.env.VITE_ADMIN_PASSWORD || 'hasan2026').trim();
+    const enteredPassword = password.trim();
+
+    const isMatch =
+      enteredPassword === configuredPassword ||
+      enteredPassword.toLowerCase() === configuredPassword.toLowerCase();
+
+    if (isMatch) {
       onLoginSuccess();
       setPassword('');
+      setShowPassword(false);
       setError('');
       onClose();
     } else {
@@ -69,14 +77,36 @@ export const AdminAuthModal: React.FC<AdminAuthModalProps> = ({
             <label className="text-xs font-mono text-accent-gold block">
               PASSWORD
             </label>
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="Enter admin password"
-              className="w-full px-4 py-3 rounded-xl bg-bg-card border border-border-subtle text-text-primary text-sm focus:border-accent-amber focus:outline-none transition-colors"
-              autoFocus
-            />
+            <div className="relative">
+              <input
+                type={showPassword ? 'text' : 'password'}
+                value={password}
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                  if (error) setError('');
+                }}
+                placeholder="Enter admin password"
+                className="w-full pl-4 pr-11 py-3 rounded-xl bg-bg-card border border-border-subtle text-text-primary text-sm focus:border-accent-amber focus:outline-none transition-colors"
+                autoFocus
+                autoCapitalize="none"
+                autoCorrect="off"
+                spellCheck={false}
+                autoComplete="current-password"
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword((prev) => !prev)}
+                className="absolute right-3 top-1/2 -translate-y-1/2 p-1.5 rounded-lg text-text-secondary hover:text-accent-gold transition-colors focus:outline-none"
+                title={showPassword ? 'Hide password' : 'Show password'}
+                aria-label={showPassword ? 'Hide password' : 'Show password'}
+              >
+                {showPassword ? (
+                  <EyeOff className="h-4 w-4" />
+                ) : (
+                  <Eye className="h-4 w-4" />
+                )}
+              </button>
+            </div>
             {error && (
               <p className="text-xs font-mono text-rose-400 flex items-center gap-1 mt-1">
                 <AlertCircle className="h-3 w-3" /> {error}

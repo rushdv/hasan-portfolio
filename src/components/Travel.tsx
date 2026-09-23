@@ -20,12 +20,14 @@ interface TravelProps {
   setCursorState: (state: CursorState) => void;
   isAdminAuthenticated?: boolean;
   onAuthenticateAdmin?: () => void;
+  onLoginSuccess?: () => void;
 }
 
 export const Travel: React.FC<TravelProps> = ({
   setCursorState,
   isAdminAuthenticated = false,
   onAuthenticateAdmin,
+  onLoginSuccess,
 }) => {
   // Travel Locations State
   const [locations, setLocations] = useState<TravelLocation[]>(defaultLocations);
@@ -428,7 +430,7 @@ export const Travel: React.FC<TravelProps> = ({
         onDeletePlace={handleDeletePlace}
         initialPlace={editingLocation}
         isAuthenticated={isAdminAuthenticated}
-        onAuthenticate={onAuthenticateAdmin || (() => {})}
+        onAuthenticate={onLoginSuccess || onAuthenticateAdmin || (() => {})}
         initialTab={adminModalTab}
       />
     </section>

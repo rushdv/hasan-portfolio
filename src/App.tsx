@@ -18,8 +18,28 @@ import { AdminAuthModal }  from './components/AdminAuthModal';
 
 export const App: React.FC = () => {
   const [cursorState, setCursorState]               = useState<CursorState>({ type: 'default' });
-  const [isAdminAuthenticated, setIsAdminAuthenticated] = useState(false);
+  const [isAdminAuthenticated, setIsAdminAuthenticated] = useState<boolean>(() => {
+    try {
+      return typeof window !== 'undefined' && localStorage.getItem('hasan_admin_auth') === 'true';
+    } catch {
+      return false;
+    }
+  });
   const [isAdminAuthModalOpen, setIsAdminAuthModalOpen] = useState(false);
+
+  const handleLoginSuccess = () => {
+    setIsAdminAuthenticated(true);
+    try {
+      localStorage.setItem('hasan_admin_auth', 'true');
+    } catch {}
+  };
+
+  const handleLogoutAdmin = () => {
+    setIsAdminAuthenticated(false);
+    try {
+      localStorage.removeItem('hasan_admin_auth');
+    } catch {}
+  };
 
   return (
     <div className="min-h-screen bg-ink text-warmPaper selection:bg-accent/25 selection:text-accent relative overflow-x-hidden">
@@ -29,14 +49,14 @@ export const App: React.FC = () => {
       <AdminAuthModal
         isOpen={isAdminAuthModalOpen}
         onClose={() => setIsAdminAuthModalOpen(false)}
-        onLoginSuccess={() => setIsAdminAuthenticated(true)}
+        onLoginSuccess={handleLoginSuccess}
       />
 
       <Navbar
         setCursorState={setCursorState}
         isAdminAuthenticated={isAdminAuthenticated}
         onOpenAdminAuthModal={() => setIsAdminAuthModalOpen(true)}
-        onLogoutAdmin={() => setIsAdminAuthenticated(false)}
+        onLogoutAdmin={handleLogoutAdmin}
       />
 
       <main>
@@ -64,6 +84,7 @@ export const App: React.FC = () => {
           setCursorState={setCursorState}
           isAdminAuthenticated={isAdminAuthenticated}
           onAuthenticateAdmin={() => setIsAdminAuthModalOpen(true)}
+          onLoginSuccess={handleLoginSuccess}
         />
 
         {/* 06 — The Eye */}
